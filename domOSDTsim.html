@@ -1,0 +1,378 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <title>domOS: Digital twin</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .bg {
+            /* The image used */
+            /*background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("DSC_0653.jpg");*/
+
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        #content {
+            overflow: auto;
+            width: 100%;
+            height: 50%;
+            background: rgba(144, 164, 194, 0.342);
+        }
+
+        #left1,
+        #right1 {
+            border: 1px solid #ffffff;
+            padding: 0rem;
+            flex-grow: 1;
+            width: 55%;
+            height: 99%;
+            color: #2d5e1e;
+        }
+
+        #left1 {
+            float: left;
+        }
+
+        #right1 {
+            overflow: hidden;
+            width: 44%;
+        }
+
+        #left2,
+        #right2 {
+            border: 1px solid #ffffff;
+            padding: 0rem;
+            flex-grow: 1;
+            width: 49%;
+            height: 99%;
+            color: #2d5e1e;
+        }
+
+        #left2 {
+            float: left;
+        }
+
+        #right2 {
+            overflow: hidden;
+            width: 50%;
+        }
+
+        html,
+        body {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        /*div { width: 50%; height: 50%; float: left; }*/
+        #tl {
+            width: 60%;
+            height: 50%;
+            float: left;
+
+
+            /* background: rgba(151, 81, 81, 0.568);*/
+        }
+
+        #tr {
+            width: 36%;
+            height: 50%;
+            float: right;
+        }
+
+        #bl {
+            width: 60%;
+            height: 50%;
+            float: left;
+        }
+
+        #br {
+            width: 36%;
+            height: 50%;
+            float: right;
+        }
+
+        #tl,
+        #tr,
+        #bl,
+        #br {
+            padding-right: 20px;
+            padding-left: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        canvas {
+            background-color: rgb(255, 255, 255);
+        }
+
+        .wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            /* min-width: 120px;*/
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+
+        /* #myChart {
+            background-color: rgba(248, 248, 237, 0.753);
+            border-radius: 6px;
+            /*   Check out the fancy shadow  on this one */
+        /* box-shadow: 0 3rem 5rem -2rem rgba(0, 0, 0, 0.6);
+        } */
+
+        #DashboardCanvas,
+        #NaviCanvas,
+        #simCanvas,
+        #myChart {
+            background-color: rgb(255, 255, 255);
+            border-radius: 6px;
+            /*   Check out the fancy shadow  on this one */
+            box-shadow: 0 3rem 5rem -2rem rgba(0, 0, 0, 0.6);
+        }
+    </style>
+
+
+    <script src="const.js"></script>
+    <script src="apartments_guisim.js"></script>
+    <script src="draw_widgets.js"></script>
+    <script src="draw_graph.js"></script>
+    <script src="draw_utils.js"></script>
+    <script src="dataStore.js"></script>
+    <script src="DataReciver.js"></script>
+    <script src="navigationsim.js"></script>
+    <script src="PPMWidgets.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="../nodeJS/node_modules/socket.io/client-dist/socket.io.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="init.js"> </script>
+
+
+</head>
+
+<script>function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+            x: evt.clientX - rect.left,
+            y: evt.clientY - rect.top
+        };
+    }</script>
+
+<div class="bg">
+    <div id="content">
+        <div id="tl">
+            <!--<img src="../images/app1.jpg" usemap="#workmap" , width="900" height="700">-->
+            <canvas id="DashboardCanvas" width="1500" height="700"></canvas>
+
+            <script> var canvas = document.getElementById("DashboardCanvas");
+                let apa = {};
+                let millis = Date.now();
+                var ctx = canvas.getContext("2d");
+                if (typeof ctx.filter === "undefined") {
+                    alert("Sorry, the browser doesn't support Context2D filters.")
+                }
+                ctx.filter = 'blur(0.1px)';
+                ctx.imageSmoothingQuality = "high"
+
+                elemLeft = canvas.offsetLeft + canvas.clientLeft,
+                    elemTop = canvas.offsetTop + canvas.clientTop,
+
+
+                    // Add event listener for `click` events.
+                    canvas.addEventListener('click', function (event) {
+                        if ((Date.now() - millis) < 500) {
+                            pos = getMousePos(canvas, event);
+                            if (naerBy(pos.x, pos.y, xold, yold)) {
+                                console.log('double click' + millis + ' . ' + Date.now());
+                                apa.elm.forEach(function (element) {
+                                    if (y > element.top && y < element.top + element.height
+                                        && x > element.left && x < element.left + element.width) {
+                                        element.funk(apa.id, element.id, false);
+                                        if (myWindow != null) myWindow.close();
+                                        chartUpdate();
+                                        bwindow(apa.id, element.id);
+                                    }
+                                });
+                            }
+                        }
+                        else {
+                            pos = getMousePos(canvas, event);
+                            x = pos.x;
+                            xold = x;
+                            y = pos.y;
+                            yold = y
+                            // Collision detection between clicked offset and element.
+                            apa.elm.forEach(function (element) {
+                                if (y > element.top && y < element.top + element.height
+                                    && x > element.left && x < element.left + element.width) {
+                                    element.funk(apa.id, element.id, true);
+                                    //sleep(5000);
+                                }
+                            });
+                        }
+                        millis = Date.now();
+                    }, false);
+
+                var myWindow;
+
+                function naerBy(x, y, ox, oy) {
+                    if (((ox - 30) <= x) && (x <= ox + 30) && ((oy - 30) <= y) && (y <= oy + 30)) return true;
+                    return false;
+                }
+                function bwindow(apid, elementid) {
+                    if (myWindow) myWindow.close();
+
+                    var value = 0.0;
+
+                    var nyElm = elementid;
+                    if (elementid.includes("SP")) {
+                        value = getDepValueSt(apid, elementid + "Ext");
+
+                        nyElm = elementid.replace(" thermSP", "therm");
+                    }
+                    if (elementid.includes("MV")) {
+                        value = getDepValueSt(apid, elementid.replace("MV", "SP") + "Ext");
+
+                        nyElm = elementid.replace(" thermMV", "therm");
+                    }
+                    myWindow = window.open("http://" + IPadd + ":8080/DigiTwin/TempSPSlider.html?aid=" + apid.toLowerCase() + "&elmID=" + nyElm.toLowerCase() + "&value=" + value, "", "width=460,height=280,left=500,top=200");
+                    //myWindow.document.getElementById('headTxt').innerHTML= "<p>" + apid + " value: " + elementid + "= " + value+"</p>";
+                    //myWindow.document.write("<p>This is Dwindow for: " + apid + " value: " + elementid + "= " + value+"</p>");
+                }
+
+
+                addDashBoard('EnergyRoad1', ctx, draw_apartment_gui_R13sim, ani_draw_R13sim, init_apartment_data_R13sim, 2);
+                addDashBoard('EnergyRoad2', ctx, draw_apartment_gui_R63Asim, ani_draw_R63Asim, init_apartment_data_R63Asim, 2);
+                addDashBoard('EnergyRoad3', ctx, draw_apartment_gui_R77sim, ani_draw_R77sim, init_apartment_data_R77sim, 2);
+                initDataSt();
+                apa = setCurrentDB('EnergyRoad1')
+            </script>
+        </div>
+
+        <div id="tr">
+            <button class="dropbtn" type="button" onclick="setEnergyRoad()">Go Back</button>
+            <div class="dropdown">
+                <button class="dropbtn">Street</button>
+                <div class="dropdown-content">
+                    <button type="button" onclick="setEnergyRoad()">EnergyRoad</button>
+                    <!-- <button type="button" onclick="setdomOSStreet()">domOSStreet</button>-->
+                </div>
+            </div>
+
+            <canvas id="NaviCanvas"></canvas>
+            <script>
+                function scd(text) {
+                    //console.log(text)
+                    apa = setCurrentDB(text)
+                }
+
+                setEnergyRoad();
+            </script>
+        </div>
+    </div>
+    <div id="content">
+        <div id="bl" class="wrapper">
+            <button class="dropbtn" type="button" onclick="clearShowDate()">Clear Chart</button>
+            <div class="dropdown">
+                <button class="dropbtn">Time spand</button>
+                <div class="dropdown-content">
+                    <button type="button" onclick="TimeSpand(1)">One Hour</button>
+                    <button type="button" onclick="TimeSpand(2)">One Day</button>
+                    <button type="button" onclick="TimeSpand(3)">One Week </button>
+                    <button type="button" onclick="TimeSpand(4)">One Month </button>
+                    <button type="button" onclick="TimeSpand(5)">One Year</button>
+                </div>
+            </div>
+
+
+
+            <canvas id="myChart" width="1500" height="600"></canvas>
+
+        </div>
+
+        <div id="br">
+            <h3>User guide.</h3>
+            <canvas id="simCanvas" width="900" height="600"></canvas>
+            <script> var canvas2 = document.getElementById("simCanvas");
+                var milliss = Date.now();
+                var ctxs = canvas2.getContext("2d");
+                //init_Sim("sim")
+                draw_logo(ctxs, "sim")
+
+            </script>
+
+        </div>
+    </div>
+    <script>
+        const labels = [
+
+        ];
+        const data = {
+            //labels: labels,
+            datasets: [{
+                data: [{}],
+            }]
+        };
+        draw_graph(document.getElementById("myChart"), data)
+
+        initSim();
+        initGUI();
+        jsonHandler();
+    </script>
+
+
+    </body>
+
+</html>
