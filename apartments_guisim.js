@@ -117,7 +117,8 @@ function init_apartment_data_R13sim(id) {
     widgetsR13.push(new TempHumiCo2NN(id, "Corridor", 650,  40, size));
     widgetsR13.push(new TempHumiCo2NN(id, "Room2",    855, 190, size));
     widgetsR13.push(new TempHumiCo2NN(id, "Room1",   1025, 210, size));
-
+    widgetsR13.push(new Thermo(id, "Room1TempSim",               1173,      230,     140, DynColor, 15, 30));
+    widgetsR13.push(new NumDisplay(id,"Room1TempSim",            1173 + 50, 230,      42, -10, 40));
 
     size = 90;
     widgetsR13.push(new Termos(id, "Kitchen thermSP1",  "Kitchen thermMV1",  "Kitchen thermSP1Ext",  150, 445, size, 15, 30, DynColor, "kitchen 1"));
@@ -155,8 +156,9 @@ function draw_apartment_gui_R13sim(ctx, id) {
         ctx.font = "24.5px Times New Roman";
         ctx.fillStyle = "#000000";
         ctx.fillText(id+": -- Simulated temperatures --", 15, 27);
-        ctx.font = "bold " + 9 + "px Arial";
+        ctx.font = "bold " + 11 + "px Arial";
         ctx.fillStyle = "#000000";
+        ctx.fillText("ODE model", 1164,    223,);
         ctx.fillText("Outside Temperature", 1320,    143,);
         ctx.stroke();
         let wLen = widgetsR13.length;
