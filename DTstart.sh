@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #rm -r data
-scp -r cs\\sz33iz@130.225.57.117:/srv/domOS/* .
+#scp -r cs\\sz33iz@130.225.57.117:/srv/domOS/* ..
 cd ./WSservers
 node ./WSDBserver.js &
 node ./WSserver.js &

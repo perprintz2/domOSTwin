@@ -106,7 +106,7 @@ function getDataFromFile(app, dataName, startTime) {
 
     try {
         //console.log("ind: ./data/" + app + "/" + datacv(dataName) + ".data");
-        lineReader.eachLine("../data/" + app + "/" + datacv(dataName) + ".data", (line, last) => {
+        lineReader.eachLine("../../data/" + app + "/" + datacv(dataName) + ".data", (line, last) => {
             var split = line.split(",");
             var linecount = 0;
             if (split[0] >= startTime) {
