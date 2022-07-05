@@ -1,5 +1,5 @@
-class Thermo {   
-    constructor(id, name, x, y, size, cf, min , max) {
+class Thermo {
+    constructor(id, name, x, y, size, cf, min, max) {
         this.min = min;
         this.max = max;
         this.size = size;
@@ -84,12 +84,12 @@ class Thermo {
 
             ctx.font = "10px Arial";
             ctx.fillStyle = "#000000";
-            let ii=0;
+            let ii = 0;
             while (ma >= mi) {
-                
-                ctx.fillText(ma.toString(), 30, 12 + delta * 5*ii);
+
+                ctx.fillText(ma.toString(), 30, 12 + delta * 5 * ii);
                 ctx.stroke();
-                ma= ma - 5;
+                ma = ma - 5;
                 ii++;
             }
             ctx.translate(-xx, -yy);
@@ -107,13 +107,13 @@ class Thermo {
         if (value > this.max) value = this.max;
         if (value < this.min) value = this.min;
 
-        
+
         //this.ctx.strokeStyle = "black"; // Green path
 
         this.ctx.beginPath();
         this.ctx.strokeStyle = "white";
         this.ctx.fillStyle = "white"
-        this.ctx.arc(15, this.size - 10, 8.1, 1.60 * Math.PI, 1.40 * Math.PI); 
+        this.ctx.arc(15, this.size - 10, 8.1, 1.60 * Math.PI, 1.40 * Math.PI);
         this.ctx.lineWidth = 0.0;
         this.ctx.fill();
         this.ctx.stroke();
@@ -141,9 +141,9 @@ class Thermo {
     }
 }
 
-class ThermoNN {   
-   
-    constructor(id, name, name2, x, y, size, cf, min , max) {
+class ThermoNN {
+
+    constructor(id, name, name2, x, y, size, cf, min, max) {
         this.min = min;
         this.max = max;
         this.size = size;
@@ -154,8 +154,8 @@ class ThermoNN {
         this.id = id;
         //console.log('this.x: ' + this.x)
         this.arp = apartmentList.get(id);
-        addKlikTemp(arp.elm, x, y, size/4, printGarph, name2);
-        addKlikTemp(arp.elm, x, y+(size/2), size/4, printGarph, name);
+        addKlikTemp(arp.elm, x, y, size / 4, printGarph, name2);
+        addKlikTemp(arp.elm, x, y + (size / 2), size / 4, printGarph, name);
         addDepValueSt(id, name);
     }
 
@@ -229,12 +229,12 @@ class ThermoNN {
 
             ctx.font = "10px Arial";
             ctx.fillStyle = "#000000";
-            let ii=0;
+            let ii = 0;
             while (ma >= mi) {
-                
-                ctx.fillText(ma.toString(), 30, 12 + delta * 5*ii);
+
+                ctx.fillText(ma.toString(), 30, 12 + delta * 5 * ii);
                 ctx.stroke();
-                ma= ma - 5;
+                ma = ma - 5;
                 ii++;
             }
             ctx.translate(-xx, -yy);
@@ -252,13 +252,13 @@ class ThermoNN {
         if (value > this.max) value = this.max;
         if (value < this.min) value = this.min;
 
-        
+
         //this.ctx.strokeStyle = "black"; // Green path
 
         this.ctx.beginPath();
         this.ctx.strokeStyle = "white";
         this.ctx.fillStyle = "white"
-        this.ctx.arc(15, this.size - 10, 8.1, 1.60 * Math.PI, 1.40 * Math.PI); 
+        this.ctx.arc(15, this.size - 10, 8.1, 1.60 * Math.PI, 1.40 * Math.PI);
         this.ctx.lineWidth = 0.0;
         this.ctx.fill();
         this.ctx.stroke();
@@ -398,11 +398,11 @@ class Gauge {
         let colorname = this.cf(value, this.min, this.max);
 
         this.ctx.lineWidth = this.size / 5;
-    
+
         if (this.size < 150)
-        this.ctx.clearRect(-this.size / 2.2 - (this.size / 17) - 1, -(this.size / 2) - 4, this.size + (this.size / 25) + 1, this.size / 2 + 5 + this.size / 60);
+            this.ctx.clearRect(-this.size / 2.2 - (this.size / 17) - 1, -(this.size / 2) - 4, this.size + (this.size / 25) + 1, this.size / 2 + 5 + this.size / 60);
         else
-        this.ctx.clearRect(-this.size / 2.2 - (this.size / 17) - 1, -(this.size / 2) - 4, this.size + (this.size / 25) + 1, this.size / 2 + 7 + this.size / 60);
+            this.ctx.clearRect(-this.size / 2.2 - (this.size / 17) - 1, -(this.size / 2) - 4, this.size + (this.size / 25) + 1, this.size / 2 + 7 + this.size / 60);
 
         this.ctx.strokeStyle = "#D0D0D0";
         this.ctx.beginPath();
@@ -448,8 +448,8 @@ class Gauge {
 }
 
 class NumDisplay {
-    constructor(id, name, x, y, size, min,max) {
-      
+    constructor(id, name, x, y, size, min, max) {
+
         this.min = min;
         this.max = max;
         this.size = size;
@@ -489,7 +489,7 @@ class NumDisplay {
 
     Update() {
         //this.ctx.save();
-        
+
         this.ctx.stroke();
         let value = getDepValueSt(this.id, this.name)
         if (value > this.max) value = this.max;
@@ -519,10 +519,10 @@ class TempHumiCo2 {
         addDepValueSt(id, name + " Temp");
         addDepValueSt(id, name + " Humi");
         addDepValueSt(id, name + " CO2");
-        this.temp = new Thermo(id, name + " Temp", this.x, this.y, this.size, DynColor,15,30);
-        this.numDis = new NumDisplay(id, name + " Temp", this.x + 50, this.y, this.size * 0.3,15,30);
-        this.humi = new Gauge(id, name + " Humi", this.x + 96, this.y + 93, this.size * 0.7, 30, 100, DynColorhumi, 'Humidity', '% Relativ', 1);
-        this.CO2 = new Gauge(id, name + " CO2", this.x + 96, this.y + 170, this.size * 0.7, 0, 2000, DynColorCO, 'CO2', 'ppm', 0);
+        this.temp = new Thermo(id, name + " Temp", this.x, this.y, this.size, DynColor, 15, 30);
+        this.numDis = new NumDisplay(id, name + " Temp", this.x + 50, this.y, this.size * 0.3, 15, 30);
+        this.humi = new Gauge(id, name + " Humi", this.x + 3 + this.size / 1.5, this.y + this.size / 1.6, this.size * 0.7, 30, 100, DynColorhumi, 'Humidity', '% Relativ', 1);
+        this.CO2 = new Gauge(id, name + " CO2", this.x + 3 + this.size / 1.5, this.y + this.size * 1.1, this.size * 0.7, 0, 2000, DynColorCO, 'CO2', 'ppm', 0);
     }
 
     draw(ctx) {
@@ -552,8 +552,8 @@ class TempHumiCo2NN {
         addDepValueSt(id, name + " Temp");
         addDepValueSt(id, name + " Humi");
         addDepValueSt(id, name + " CO2");
-        this.temp = new ThermoNN(id, name + " TempNN", name + " Temp", this.x, this.y, this.size, DynColor,15,30);
-        this.numDis = new NumDisplay(id, name + " TempNN", this.x + 50, this.y, this.size * 0.3,15,30);
+        this.temp = new ThermoNN(id, name + " TempNN", name + " Temp", this.x, this.y, this.size, DynColor, 15, 30);
+        this.numDis = new NumDisplay(id, name + " TempNN", this.x + 50, this.y, this.size * 0.3, 15, 30);
         this.humi = new Gauge(id, name + " Humi", this.x + 96, this.y + 93, this.size * 0.7, 30, 100, DynColorhumi, 'Humidity', '% Relativ', 1);
         this.CO2 = new Gauge(id, name + " CO2", this.x + 96, this.y + 170, this.size * 0.7, 0, 2000, DynColorCO, 'CO2', 'ppm', 0);
     }
@@ -589,7 +589,7 @@ class Termos {
         this.title = title;
         this.arp = apartmentList.get(id);
         addKliktherm(arp.elm, x, y, size, printGarph, namesp, namemv);
-        
+
         addDepValueSt(id, namesp);
         addDepValueSt(id, namemv);
         addDepValueSt(id, namespext);
@@ -606,8 +606,8 @@ class Termos {
         if (sp < this.min) sp = this.min;
         if (spext > this.max) spext = this.max;
         if (spext < this.min) spext = this.min;
-       
-        let rot = (Math.PI * (value - this.min)) / (this.max - this.min);  
+
+        let rot = (Math.PI * (value - this.min)) / (this.max - this.min);
         let rotSP = (Math.PI * (sp - this.min)) / (this.max - this.min);
         let rotSPext = (Math.PI * (spext - this.min)) / (this.max - this.min);
 
@@ -655,30 +655,30 @@ class Termos {
             ctx.rotate(-rot);
 
             ctx.rotate(rotSP);
-    
+
             ctx.beginPath();
             ctx.strokeStyle = "#f0a0a0";
             ctx.moveTo(-ss / 2.5 - (ss / 17), - (ss / 40));           // Create a starting point
-            ctx.lineTo(-ss / 3.3- (ss / 17), 0);          // Create a horizontal line
-            ctx.lineTo(-ss / 2.5- (ss / 17), (ss / 40));
+            ctx.lineTo(-ss / 3.3 - (ss / 17), 0);          // Create a horizontal line
+            ctx.lineTo(-ss / 2.5 - (ss / 17), (ss / 40));
             ctx.lineTo(-ss / 2.5 - (ss / 17), - (ss / 40));
             ctx.lineWidth = 0.5;
-    
+
             ctx.fillStyle = 'red';
             ctx.fill();
             ctx.rotate(-rotSP);
 
 
             ctx.rotate(rotSPext);
-    
+
             ctx.beginPath();
             ctx.strokeStyle = "#0000a0";
             ctx.moveTo(-ss / 2.5 - (ss / 17), - (ss / 40));           // Create a starting point
-            ctx.lineTo(-ss / 3.3- (ss / 17), 0);          // Create a horizontal line
-            ctx.lineTo(-ss / 2.5- (ss / 17), (ss / 40));
+            ctx.lineTo(-ss / 3.3 - (ss / 17), 0);          // Create a horizontal line
+            ctx.lineTo(-ss / 2.5 - (ss / 17), (ss / 40));
             ctx.lineTo(-ss / 2.5 - (ss / 17), - (ss / 40));
             ctx.lineWidth = 0.5;
-    
+
             ctx.fillStyle = 'blue';
             ctx.fill();
             ctx.rotate(-rotSPext);
@@ -733,8 +733,8 @@ class Termos {
         if (sp < this.min) sp = this.min;
         if (spext > this.max) spext = this.max;
         if (spext < this.min) spext = this.min;
-       
-        let rot = (Math.PI * (value - this.min)) / (this.max - this.min);  
+
+        let rot = (Math.PI * (value - this.min)) / (this.max - this.min);
         let rotSP = (Math.PI * (sp - this.min)) / (this.max - this.min);
         let rotSPext = (Math.PI * (spext - this.min)) / (this.max - this.min);
 
@@ -772,8 +772,8 @@ class Termos {
         this.ctx.beginPath();
         this.ctx.strokeStyle = "#f0a0a0";
         this.ctx.moveTo(-this.size / 2.5 - (this.size / 17), - (this.size / 40));           // Create a starting point
-        this.ctx.lineTo(-this.size / 3.3- (this.size / 17), 0);          // Create a horizontal line
-        this.ctx.lineTo(-this.size / 2.5- (this.size / 17), (this.size / 40));
+        this.ctx.lineTo(-this.size / 3.3 - (this.size / 17), 0);          // Create a horizontal line
+        this.ctx.lineTo(-this.size / 2.5 - (this.size / 17), (this.size / 40));
         this.ctx.lineTo(-this.size / 2.5 - (this.size / 17), - (this.size / 40));
         this.ctx.lineWidth = 0.5;
 
@@ -783,12 +783,12 @@ class Termos {
 
 
         this.ctx.rotate(rotSPext);
-    
+
         this.ctx.beginPath();
         this.ctx.strokeStyle = "#f0a0a0";
         this.ctx.moveTo(-this.size / 2.5 - (this.size / 17), - (this.size / 40));           // Create a starting point
-        this.ctx.lineTo(-this.size / 3.3- (this.size / 17), 0);          // Create a horizontal line
-        this.ctx.lineTo(-this.size / 2.5- (this.size / 17), (this.size / 40));
+        this.ctx.lineTo(-this.size / 3.3 - (this.size / 17), 0);          // Create a horizontal line
+        this.ctx.lineTo(-this.size / 2.5 - (this.size / 17), (this.size / 40));
         this.ctx.lineTo(-this.size / 2.5 - (this.size / 17), - (this.size / 40));
         this.ctx.lineWidth = 0.5;
 
