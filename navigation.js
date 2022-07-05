@@ -1,5 +1,5 @@
 
- function scdAn(text) {
+function scdAn(text) {
     //console.log(text)
     setdomOSStreet60_64();
     apa = setCurrentDB(text)
@@ -7,13 +7,13 @@
 
 function setdomOSStreet60_64() {
     var c = document.getElementById("NaviCanvas");
-    c.width = screen.width*0.35;
-    c.height = screen.height*0.452;
+    c.width = screen.width * 0.35;
+    c.height = screen.height * 0.452;
 
 
     var elm = [];
-    addKlikArc(elm, 80, 183, 60, scd, 'domOSStreet 60-64');
-    addKlikArc(elm, 80, 430, 60, scd, 'domOSStreet 120-124');
+    addKlikArc(elm, 80*scale, 183*scale, 60*scale, scd, 'domOSStreet 60-64');
+    addKlikArc(elm, 80*scale, 430*scale, 60*scale, scd, 'domOSStreet 120-124');
     var ctx2 = c.getContext("2d");
 
     elLeft = c.offsetLeft + c.clientLeft,
@@ -55,12 +55,12 @@ function setdomOSStreet60_64() {
 
 function setdomOSStreet() {
     var c = document.getElementById("NaviCanvas");
-    c.width = screen.width*0.35;
-    c.height = screen.height*0.452;
+    c.width = screen.width * 0.35;
+    c.height = screen.height * 0.452;
 
     var elm = [];
-    addKlikArc(elm, 435, 173, 80, scdAn, 'domOSStreet 60-64');
-    addKlikArc(elm, 390, 505, 80, scdAn, 'domOSStreet 120-124');
+    addKlikArc(elm, 435*scale, 173*scale, 80*scale, scdAn, 'domOSStreet 60-64');
+    addKlikArc(elm, 390*scale, 505*scale, 80*scale, scdAn, 'domOSStreet 120-124');
     var ctx2 = c.getContext("2d");
 
     elLeft = c.offsetLeft + c.clientLeft,
@@ -102,13 +102,13 @@ function setdomOSStreet() {
 
 function setEnergyRoad() {
     var c = document.getElementById("NaviCanvas");
-    c.width = screen.width*0.35;
-    c.height = screen.height*0.452;
+    c.width = screen.width * 0.35;
+    c.height = screen.height * 0.452;
 
     var elm = [];
-    addKlikArc(elm, 160, 200, 80, scd, 'EnergyRoad2');
-    addKlikArc(elm, 437, 550, 80, scd, 'EnergyRoad1');
-    addKlikArc(elm, 638, 256, 80, scd, 'EnergyRoad3');
+    addKlikArc(elm, 160*scale, 200*scale, 80*scale, scd, 'EnergyRoad2');
+    addKlikArc(elm, 437*scale, 550*scale, 80*scale, scd, 'EnergyRoad1');
+    addKlikArc(elm, 638*scale, 256*scale, 80*scale, scd, 'EnergyRoad3');
     var ctx2 = c.getContext("2d");
 
     elLeft = c.offsetLeft + c.clientLeft,
@@ -142,7 +142,7 @@ function setEnergyRoad() {
             ctx2.beginPath();
             ctx2.arc(element.x, element.y, element.r, 0, 2 * Math.PI);
             ctx2.stroke();
-            drawTextBG(ctx2, element.id, "14px Times New Roman", element.x-element.r, element.y-element.r-25)
+            drawTextBG(ctx2, element.id, "14px Times New Roman", element.x - element.r, element.y - element.r - 25)
         });
 
     };
