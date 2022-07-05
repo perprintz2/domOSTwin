@@ -12,8 +12,8 @@ function setdomOSStreet60_64() {
 
 
     var elm = [];
-    addKlikArc(elm, 80, 183, 60, scd, 'domOSStreet 60-64');
-    addKlikArc(elm, 80, 430, 60, scd, 'domOSStreet 120-124');
+    addKlikArc(elm, 80*scale, 183*scale, 60*scale, scd, 'domOSStreet 60-64');
+    addKlikArc(elm, 80*scale, 430*scale, 60*scale, scd, 'domOSStreet 120-124');
     var ctx2 = c.getContext("2d");
 
     elLeft = c.offsetLeft + c.clientLeft,
@@ -38,7 +38,7 @@ function setdomOSStreet60_64() {
 
         ctx2.drawImage(imageObj2, 0, 0, c.width, c.height);
         ctx2.stroke();
-        drawTextBG(ctx2, "domOSStreet", "24px Times New Roman", 15, 27)
+        drawTextBG(ctx2, "domOSStreet", "24px Times New Roman", 15*scale, 27*scale)
         elm.forEach(function (element) {
             ctx2.lineWidth = 5;
             ctx2.strokeStyle = "#FF0000";
@@ -60,8 +60,8 @@ function setdomOSStreet() {
 
 
     var elm = [];
-    addKlikArc(elm, 435, 173, 80, scdAn, 'domOSStreet 60-64');
-    addKlikArc(elm, 390, 505, 80, scdAn, 'domOSStreet 120-124');
+    addKlikArc(elm, 435*scale, 173*scale, 80*scale, scdAn, 'domOSStreet 60-64');
+    addKlikArc(elm, 390*scale, 505*scale, 80*scale, scdAn, 'domOSStreet 120-124');
     var ctx2 = c.getContext("2d");
 
     elLeft = c.offsetLeft + c.clientLeft,
@@ -86,7 +86,7 @@ function setdomOSStreet() {
 
         ctx2.drawImage(imageObj2, 0, 0, c.width, c.height);
         ctx2.stroke();
-        drawTextBG(ctx2, "domOSStreet", "24px Times New Roman", 15, 27)
+        drawTextBG(ctx2, "domOSStreet", "24px Times New Roman", 15*scale, 27*scale)
         elm.forEach(function (element) {
             ctx2.lineWidth = 5;
             ctx2.strokeStyle = "#FF0000";
@@ -108,7 +108,7 @@ function setEnergyRoad() {
 
     var elm = [];
     
-    addKlikArc(elm, 437, 550, 80, scd, 'EnergyRoad1');
+    addKlikArc(elm, 437*scale, 550*scale, 80*scale, scd, 'EnergyRoad1');
    
     var ctx2 = c.getContext("2d");
 
@@ -134,7 +134,7 @@ function setEnergyRoad() {
 
         ctx2.drawImage(imageObj2, 0, 0, c.width, c.height);
         ctx2.stroke();
-        drawTextBG(ctx2, "EnergyRoad", "24px Times New Roman", 15, 27)
+        drawTextBG(ctx2, "EnergyRoad", "24px Times New Roman", 15*scale, 27*scale)
         elm.forEach(function (element) {
             ctx2.lineWidth = 5;
             ctx2.strokeStyle = "#FF0000";
