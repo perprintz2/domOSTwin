@@ -202,6 +202,10 @@
 
 </head>
 
+<script> let scale=1.0;
+    if (screen.width == 3840) scale= 1.5;
+    </script>
+
 <script>function getMousePos(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
         return {
@@ -214,9 +218,11 @@
     <div id="content">
         <div id="tl">
             <!--<img src="../images/app1.jpg" usemap="#workmap" , width="900" height="700">-->
-            <canvas id="DashboardCanvas" width="1500" height="700"></canvas>
+            <canvas id="DashboardCanvas"></canvas>
 
             <script> var canvas = document.getElementById("DashboardCanvas");
+            canvas.width = screen.width * 0.586;
+                canvas.height = screen.height * 0.476;
                 let apa = {};
                 let millis = Date.now();
                 var ctx = canvas.getContext("2d");
@@ -346,6 +352,8 @@
             <h3>User guide.</h3>
             <canvas id="simCanvas" width="900" height="600"></canvas>
             <script> var canvas2 = document.getElementById("simCanvas");
+                canvas2.width = screen.width * 0.35;
+                canvas2.height = screen.height * 0.417;
                 var milliss = Date.now();
                 var ctxs = canvas2.getContext("2d");
                 //init_Sim("sim")

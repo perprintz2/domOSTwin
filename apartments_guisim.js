@@ -115,7 +115,7 @@ function init_apartment_data_R13sim(id) {
     widgetsR13.push(new TempHumiCo2NN(id, "Kitchen",   70*scale, 110*scale, size));
     widgetsR13.push(new TempHumiCo2NN(id, "Room4",    375*scale, 190*scale, size));
     widgetsR13.push(new TempHumiCo2NN(id, "Corridor", 650*scale,  40*scale, size));
-    widgetsR13.push(new TempHumiCo2NN(id, "Room2",    855*scale, 190,*scale size));
+    widgetsR13.push(new TempHumiCo2NN(id, "Room2",    855*scale, 190*scale, size));
     widgetsR13.push(new TempHumiCo2NN(id, "Room1",   1025*scale, 210*scale, size));
     widgetsR13.push(new Thermo(id, "Room1 TempSim",               1173*scale,      230*scale,     140*scale, DynColor, 15, 30));
     widgetsR13.push(new NumDisplay(id,"Room1 TempSim",            (1173 + 50)*scale, 230*scale,      42*scale, -10, 40));
@@ -138,7 +138,7 @@ function init_apartment_data_R13sim(id) {
 
     widgetsR13.push(new Thermo(id, "OutTemp",               1320*scale,      150*scale,     240*scale, DynColorStd, -5, 30));
     widgetsR13.push(new NumDisplay(id,"OutTemp",            (1320 + 50)*scale, 150*scale,      42*scale, -10, 40));
-    widgetsR13.push(new Gauge(id, "WindSpeed",              (1320+98)*scale,   (150+93)*scale,  100*scale 0, 30, DynColorStd, 'WindSpeed', 'm/s', 1));
+    widgetsR13.push(new Gauge(id, "WindSpeed",              (1320+98)*scale,   (150+93)*scale,  100*scale, 0, 30, DynColorStd, 'WindSpeed', 'm/s', 1));
     widgetsR13.push(new Gauge(id, "DirectSunPowerVertical", (1320+98)*scale,   (150+170)*scale, 100*scale,  0,  1, DynColorStd, 'Direct Sun Radiation', 'kW/m2', 2));
 }
 
