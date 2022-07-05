@@ -143,6 +143,8 @@ function draw_graph(ctx, data) {
             }
         }
     }
+    ctx.width= screen.width*0.586;
+    ctx.height= screen.height*0.486;
     chart = new Chart(ctx, config);
     clearShowDate();
 }

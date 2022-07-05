@@ -7,8 +7,9 @@
 
 function setdomOSStreet60_64() {
     var c = document.getElementById("NaviCanvas");
-    c.width = 900;
-    c.height = 650;
+    c.width = screen.width*0.35;
+    c.height = screen.height*0.452;
+
 
     var elm = [];
     addKlikArc(elm, 80, 183, 60, scd, 'domOSStreet 60-64');
@@ -35,7 +36,7 @@ function setdomOSStreet60_64() {
 
     imageObj2.onload = function () {
 
-        ctx2.drawImage(imageObj2, 0, 0, 900, 650);
+        ctx2.drawImage(imageObj2, 0, 0, c.width, c.height);
         ctx2.stroke();
         drawTextBG(ctx2, "domOSStreet", "24px Times New Roman", 15, 27)
         elm.forEach(function (element) {
@@ -54,8 +55,8 @@ function setdomOSStreet60_64() {
 
 function setdomOSStreet() {
     var c = document.getElementById("NaviCanvas");
-    c.width = 900;
-    c.height = 650;
+    c.width = screen.width*0.35;
+    c.height = screen.height*0.452;
 
     var elm = [];
     addKlikArc(elm, 435, 173, 80, scdAn, 'domOSStreet 60-64');
@@ -82,7 +83,7 @@ function setdomOSStreet() {
 
     imageObj2.onload = function () {
 
-        ctx2.drawImage(imageObj2, 0, 0, 900, 650);
+        ctx2.drawImage(imageObj2, 0, 0, c.width, c.height);
         ctx2.stroke();
         drawTextBG(ctx2, "domOSStreet", "24px Times New Roman", 15, 27)
         elm.forEach(function (element) {
@@ -101,8 +102,8 @@ function setdomOSStreet() {
 
 function setEnergyRoad() {
     var c = document.getElementById("NaviCanvas");
-    c.width = 900;
-    c.height = 650;
+    c.width = screen.width*0.35;
+    c.height = screen.height*0.452;
 
     var elm = [];
     addKlikArc(elm, 160, 200, 80, scd, 'EnergyRoad2');
@@ -130,7 +131,7 @@ function setEnergyRoad() {
 
     imageObj2.onload = function () {
 
-        ctx2.drawImage(imageObj2, 0, 0, 900, 650);
+        ctx2.drawImage(imageObj2, 0, 0, c.width, c.height);
         ctx2.stroke();
         drawTextBG(ctx2, "EnergyRoad", "24px Times New Roman", 15, 27)
         elm.forEach(function (element) {

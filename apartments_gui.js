@@ -99,38 +99,38 @@ function init_apartment_data_R13(id) {
     arp = apartmentList.get(id);
     addDepDataSt(id);
 
-    let size = 140;
-    widgetsR13.push(new TempHumiCo2(id, "Kitchen",   70, 110, size));
-    widgetsR13.push(new TempHumiCo2(id, "Room4",    375, 190, size));
-    widgetsR13.push(new TempHumiCo2(id, "Corridor", 650,  40, size));
-    widgetsR13.push(new TempHumiCo2(id, "Room2",    855, 190, size));
-    widgetsR13.push(new TempHumiCo2(id, "Room1",   1025, 210, size));
-   widgetsR13.push(new Thermo(id, "Room1TempSim",               1173,      230,     140, DynColor, 15, 30));
-    widgetsR13.push(new NumDisplay(id,"Room1TempSim",            1173 + 50, 230,      42, -10, 40));
+    let size = 140*scale;
+    widgetsR13.push(new TempHumiCo2(id, "Kitchen",   70*scale, 110*scale, size));
+    widgetsR13.push(new TempHumiCo2(id, "Room4",    375*scale, 190*scale, size));
+    widgetsR13.push(new TempHumiCo2(id, "Corridor", 650*scale,  40*scale, size));
+    widgetsR13.push(new TempHumiCo2(id, "Room2",    855*scale, 190*scale, size));
+    widgetsR13.push(new TempHumiCo2(id, "Room1",   1025*scale, 210*scale, size));
+   widgetsR13.push(new Thermo(id, "Room1 TempSim",               1173*scale,      230*scale,     140*scale, DynColor, 15, 30));
+    widgetsR13.push(new NumDisplay(id,"Room1 TempSim",            (1173 + 50)*scale, 230*scale,      42*scale, -10, 40));
    /* widgetsR13.push(new Thermo(id, "Room1 TempNN",               1173,      530,     140, DynColor, 15, 30));
     widgetsR13.push(new NumDisplay(id,"Room1 TempNN",            1173 + 50, 530,      42, -10, 40));
 */
 
-    size = 90;
-    widgetsR13.push(new Termos(id, "Kitchen thermSP1",  "Kitchen thermMV1",  "Kitchen thermSP1Ext",  150, 445, size, 15, 30, DynColor, "kitchen 1"));
-    widgetsR13.push(new Termos(id, "Kitchen thermSP2",  "Kitchen thermMV2",  "Kitchen thermSP2Ext",  200, 355, size, 15, 30, DynColor, "kitchen 2"));
-    widgetsR13.push(new Termos(id, "Room4 thermSP1",    "Room4 thermMV1",    "Room4 thermSP1Ext",    445, 445, size, 15, 30, DynColor, "Room 4"));
-    widgetsR13.push(new Termos(id, "Corridor thermSP1", "Corridor thermMV1", "Corridor thermSP1Ext", 595, 445, size, 15, 30, DynColor, "Corridor 1"));
-    widgetsR13.push(new Termos(id, "Room2 thermSP1",    "Room2 thermMV1",    "Room2 thermSP1Ext",    905, 445, size, 15, 30, DynColor, "Room 2"));
-    widgetsR13.push(new Termos(id, "Room1 thermSP1",    "Room1 thermMV1",    "Room1 thermSP1Ext",   1225, 175, size, 15, 30, DynColor, "Room 1.1"));
-    widgetsR13.push(new Termos(id, "Room1 thermSP2",    "Room1 thermMV2",    "Room1 thermSP2Ext",    925, 136, size, 15, 30, DynColor, "Room 1.2"));
-    widgetsR13.push(new Termos(id, "Corridor thermSP2", "Corridor thermMV2", "Corridor thermSP2Ext", 455, 136, size, 15, 30, DynColor, "Corridor 2"));
+    size = 90*scale;
+    widgetsR13.push(new Termos(id, "Kitchen thermSP1",  "Kitchen thermMV1",  "Kitchen thermSP1Ext",  150*scale, 445*scale, size, 15, 30, DynColor, "kitchen 1"));
+    widgetsR13.push(new Termos(id, "Kitchen thermSP2",  "Kitchen thermMV2",  "Kitchen thermSP2Ext",  200*scale, 355*scale, size, 15, 30, DynColor, "kitchen 2"));
+    widgetsR13.push(new Termos(id, "Room4 thermSP1",    "Room4 thermMV1",    "Room4 thermSP1Ext",    445*scale, 445*scale, size, 15, 30, DynColor, "Room 4"));
+    widgetsR13.push(new Termos(id, "Corridor thermSP1", "Corridor thermMV1", "Corridor thermSP1Ext", 595*scale, 445*scale, size, 15, 30, DynColor, "Corridor 1"));
+    widgetsR13.push(new Termos(id, "Room2 thermSP1",    "Room2 thermMV1",    "Room2 thermSP1Ext",    905*scale, 445*scale, size, 15, 30, DynColor, "Room 2"));
+    widgetsR13.push(new Termos(id, "Room1 thermSP1",    "Room1 thermMV1",    "Room1 thermSP1Ext",   1225*scale, 175*scale, size, 15, 30, DynColor, "Room 1.1"));
+    widgetsR13.push(new Termos(id, "Room1 thermSP2",    "Room1 thermMV2",    "Room1 thermSP2Ext",    925*scale, 136*scale, size, 15, 30, DynColor, "Room 1.2"));
+    widgetsR13.push(new Termos(id, "Corridor thermSP2", "Corridor thermMV2", "Corridor thermSP2Ext", 455*scale, 136*scale, size, 15, 30, DynColor, "Corridor 2"));
 
-    size = 170;
-    widgetsR13.push(new Gauge(id, "Inlet Flow",         110, 630, size,  0, 0.5, DynColorStd, 'Inlet Flow', 'L/sec', 2));
-    widgetsR13.push(new Gauge(id, "Inlet Temperature",  290, 630, size, 20, 100, DynColorStd, 'Inlet Temperature', 'grC', 1));
-    widgetsR13.push(new Gauge(id, "Outlet Temperature", 660, 630, size, 20, 100, DynColorStd, 'Outlet Temperature', 'grC', 1));
-    widgetsR13.push(new Gauge(id, "Power Consumption",  850, 630, size,  0,  20, DynColorStd, 'Power Consumption', 'kW', 1));
+    size = 170*scale;
+    widgetsR13.push(new Gauge(id, "Inlet Flow",         110*scale, 630*scale, size,  0, 0.5, DynColorStd, 'Inlet Flow', 'L/sec', 2));
+    widgetsR13.push(new Gauge(id, "Inlet Temperature",  290*scale, 630*scale, size, 20, 100, DynColorStd, 'Inlet Temperature', 'grC', 1));
+    widgetsR13.push(new Gauge(id, "Outlet Temperature", 660*scale, 630*scale, size, 20, 100, DynColorStd, 'Outlet Temperature', 'grC', 1));
+    widgetsR13.push(new Gauge(id, "Power Consumption",  850*scale, 630*scale, size,  0,  20, DynColorStd, 'Power Consumption', 'kW', 1));
 
-    widgetsR13.push(new Thermo(id, "OutTemp",               1320,      150,     240, DynColorStd, -5, 30));
-    widgetsR13.push(new NumDisplay(id,"OutTemp",            1320 + 50, 150,      42, -10, 40));
-    widgetsR13.push(new Gauge(id, "WindSpeed",              1320+98,   150+93,  100, 0, 30, DynColorStd, 'WindSpeed', 'm/s', 1));
-    widgetsR13.push(new Gauge(id, "DirectSunPowerVertical", 1320+98,   150+170, 100,  0,  1, DynColorStd, 'Direct Sun Radiation', 'kW/m2', 2));
+    widgetsR13.push(new Thermo(id, "OutTemp",               1320*scale,      150*scale,     240*scale, DynColorStd, -5, 30));
+    widgetsR13.push(new NumDisplay(id,"OutTemp",            (1320 + 50)*scale, 150*scale,      42*scale, -10, 40));
+    widgetsR13.push(new Gauge(id, "WindSpeed",              (1320+98)*scale,   (150+93)*scale,  100*scale, 0, 30, DynColorStd, 'WindSpeed', 'm/s', 1));
+    widgetsR13.push(new Gauge(id, "DirectSunPowerVertical", (1320+98)*scale,   (150+170)*scale, 100*scale,  0,  1, DynColorStd, 'Direct Sun Radiation', 'kW/m2', 2));
 }
 
 function draw_apartment_gui_R13(ctx, id) {

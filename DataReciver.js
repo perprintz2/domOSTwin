@@ -328,7 +328,7 @@ function EnergyRoad1Room1Tempsim() {
             var epochMs = Date.now()
             console.log("Number: " + Number(a[0]));
 
-            setDepValueSt('EnergyRoad1', "Room1TempSim", Number(a[0])-273.15 , epochMs, false);
+            setDepValueSt('EnergyRoad1', "Room1 TempSim", Number(a[0])-273.15 , epochMs, false);
             drawAni();
             updataGraph();
         }
