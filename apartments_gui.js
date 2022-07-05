@@ -43,7 +43,7 @@ function draw_Sim(ctx, id) {
         ctx.fillStyle = "#000000";
         ctx.fillText("Room1 Temperature", 70*scale,    123*scale,);
         ctx.fillText("Simulated Temperature", 220*scale,    123*scale,);
-        ctx.fillText("NeuralNet Temperature", 370*scale,    123*scale,);
+        //ctx.fillText("NeuralNet Temperature", 370*scale,    123*scale,);
         ctx.stroke();
 
         let wLen = widgetsSim.length;
@@ -150,7 +150,7 @@ function draw_apartment_gui_R13(ctx, id) {
         ctx.font = "bold " + 9 + "px Arial";
         ctx.fillStyle = "#000000";
         ctx.fillText("Simulated Temperature", 1170*scale,    223*scale,);
-        ctx.fillText("NeuralNet Temperature", 1170*scale,    523*scale,);
+        //ctx.fillText("NeuralNet Temperature", 1170*scale,    523*scale,);
         ctx.fillText("Outside Temperature", 1320*scale,    143*scale,);
         ctx.stroke();
         let wLen = widgetsR13.length;
