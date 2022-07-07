@@ -554,9 +554,9 @@ class TempHumiCo2NN {
         addDepValueSt(id, name + " CO2");
         this.temp = new ThermoNN(id, name + " TempNN", name + " Temp", this.x, this.y, this.size, DynColor, 15, 30);
         this.numDis = new NumDisplay(id, name + " TempNN", this.x + 50, this.y, this.size * 0.3, 15, 30);
-        this.humi = new Gauge(id, name + " Humi", this.x + 96, this.y + 93, this.size * 0.7, 30, 100, DynColorhumi, 'Humidity', '% Relativ', 1);
-        this.CO2 = new Gauge(id, name + " CO2", this.x + 96, this.y + 170, this.size * 0.7, 0, 2000, DynColorCO, 'CO2', 'ppm', 0);
-    }
+        this.humi = new Gauge(id, name + " Humi", this.x +46+ this.size / 3.2, this.y + this.size / 1.7, this.size * 0.6, 30, 100, DynColorhumi, 'Humidity', '% Relativ', 1);
+        this.CO2 = new Gauge(id, name + " CO2", this.x +46+ this.size / 3.2, this.y + this.size , this.size * 0.6, 0, 2000, DynColorCO, 'CO2', 'ppm', 0);
+   }
 
     draw(ctx) {
         this.temp.draw(ctx);
