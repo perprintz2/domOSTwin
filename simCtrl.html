@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>domOS: Digital twin</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Hind+Madurai:300,600|Poppins:300&display=swap");
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="../nodeJS/node_modules/socket.io/client-dist/socket.io.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@node-wot/browser-bundle@latest/dist/wot-bundle.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@2.2.3/dist/chartjs-plugin-dragdata.min.js"></script>
+    <script>
+        function init() {
+
+
+        }
+
+        async function testPropertyWrite(thing, name, value, shouldFail) {
+            const displayValue = JSON.stringify(value);
+            try {
+                await thing.writeProperty(name, value);
+                if (!shouldFail) console.info("PASS " + name + " WRITE (" + displayValue + ")");
+                else console.error("FAIL " + name + " WRITE: (" + displayValue + ")");
+            } catch (err) {
+                if (!shouldFail) console.error("FAIL " + name + " WRITE (" + displayValue + "):", err.message);
+                else console.info("PASS " + name + " WRITE (" + displayValue + "):", err.message);
+            }
+        }
+        var request = new XMLHttpRequest();
+
+        function onResize() {
+
+        }
+
+
+        window.onload = init;
+        window.addEventListener("resize", onResize);
+        
+        function ff(item)
+        {
+            console.log("data1 x: "+item.x);
+            console.log("data1 y "+item.y);
+        }
+        window["data1"].forEach(ff);
+        //console.log("data1: "+window["data1"][1].x);
+
+    </script>
+</head>
+
+<body>
+    <div>
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
+        <div>
+            <button id="submit">Submit</h3>
+        </div>
+    </div>
+
+    <script>
+        let plotColor = ['rgb( 255,  0,   0)',
+    'rgb(  0, 200,   0)',
+    'rgb(  0,   0, 255)',
+    'rgb(210, 210,  0)',
+    'rgb(  0, 220, 220)',
+    'rgb(255,  0,  255)',
+    'rgb(170,  170,  170)',
+    'rgb(0,  0,  0)',
+    'rgb(207,  91,  41)',
+    'rgb(104,  168,  85)',
+
+];
+
+function pColor(i) {
+    if (i < 10) {
+        return plotColor[i];
+    }
+    return 'rgb(' + Math.round(Math.random() * 255.0) + ',' + Math.round(Math.random() * 255.0) + ',' + Math.round(Math.random() * 255.0) + ')';
+}
+        var xyValues = [
+            { x: 55, y: 7 },
+            { x: 60, y: 8 },
+            { x: 80, y: 8 },
+            { x: 85, y: 9 },
+            { x: 90, y: 9 },
+            { x: 100, y: 9 },
+            { x: 110, y: 10 },
+            { x: 120, y: 11 },
+            { x: 130, y: 14 },
+            { x: 140, y: 14 },
+            { x: 150, y: 15 }
+        ];
+        var xyValues2 = [
+            { x: 50, y: 17 },
+            { x: 60, y: 12 },
+            { x: 70, y: 9 },
+            { x: 80, y: 10 },
+            { x: 90, y: 9 },
+            { x: 100, y: 9 },
+            { x: 110, y: 10 },
+            { x: 120, y: 11 },
+            { x: 130, y: 14 },
+            { x: 140, y: 14 },
+            { x: 150, y: 15 }
+        ];
+        const draggableChart = new Chart(document.getElementById("myChart"), {
+            type: 'scatter',
+            data: [],
+            options: {
+                datasets: {
+                    scatter: {
+                        borderWidth: 2.5,
+                        fill: false,
+                        pointRadius: 5,
+                        pointHitRadius: 15,
+                        showLine: true
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 20,
+                        right: 20,
+                        top: 20,
+                        bottom: 10
+                    }
+                },
+                plugins: {
+                    dragData: {
+                        round: 1, // rounds the values to n decimal places 
+                        // in this case 1, e.g 0.1234 => 0.1)
+                        showTooltip: true, // show the tooltip while dragging [default = true]
+                        // dragX: true // also enable dragging along the x-axis.
+                        // this solely works for continous, numerical x-axis scales (no categories or dates)!
+                        onDragStart: function (e, element) {
+                            /*
+                            // e = event, element = datapoint that was dragged
+                            // you may use this callback to prohibit dragging certain datapoints
+                            // by returning false in this callback
+                            if (element.datasetIndex === 0 && element.index === 0) {
+                              // this would prohibit dragging the first datapoint in the first
+                              // dataset entirely
+                              return false
+                            }
+                            */
+                        },
+                        onDrag: function (e, datasetIndex, index, value) {
+                            /*     
+                            // you may control the range in which datapoints are allowed to be
+                            // dragged by returning `false` in this callback
+                            if (value < 0) return false // this only allows positive values
+                            if (datasetIndex === 0 && index === 0 && value > 20) return false 
+                            */
+                            //console.log("value x: " + value.x + "value.y: " + value.y);
+                        },
+                        onDragEnd: function (e, datasetIndex, index, value) {
+                            // you may use this callback to store the final datapoint value
+                            // (after dragging) in a database, or update other UI elements that
+                            // dependent on it
+                            console.log("datasetIndex: " + datasetIndex);
+                            console.log("index: " + index);
+                            console.log("value end x: " + value.x + "value end y: " + value.y);
+                        },
+                    }
+                },
+                scales: {
+                    y: {
+                        // dragData: false // disables datapoint dragging for the entire axis
+                    }
+                }
+            }
+        })
+
+
+
+        draggableChart.data.datasets.push(
+            {
+                label: "A dataset",
+                data: xyValues,
+                backgroundColor: pColor(1),
+                borderColor: pColor(1)
+            });
+
+        draggableChart.data.datasets.push(
+            {
+                label: "A dathgfjhaset",
+                data: xyValues2,
+                backgroundColor: pColor(2),
+                borderColor: pColor(2)
+            }
+
+        );
+
+        draggableChart.update();
+
+        document.getElementById("submit").addEventListener("click", mouseUp);
+
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var servient = new Wot.Core.Servient();
+        var client = new Wot.Http.HttpClient();
+        servient.addClientFactory(new Wot.Http.HttpClientFactory());
+        var helpers = new Wot.Core.Helpers(servient);
+
+        var apid = urlParams.get('aid');
+        var elmid = urlParams.get('elmID');
+        var val = urlParams.get('value');
+
+        function mouseUp() {
+            var url = "http://172.25.12.11:8088/" + apid + elmid + "/actions/setSPExternal?setpoint=" + val;
+            request.open('POST', url);
+            request.send();
+        }
+        console.log("OK#")
+
+    </script>
+</body>
+
+</html>
