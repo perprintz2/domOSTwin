@@ -1,5 +1,7 @@
 clear
 
+!scp -r cs\\sz33iz@130.225.57.117:/srv/domOS/* /home/ppm/Documents/demos/domOS/DigiTwin
+
 opts = delimitedTextImportOptions("NumVariables", 2);
 
 % Specify range and delimiter
@@ -40,7 +42,7 @@ InletTemperature =       readtable("/home/ppm/Documents/demos/domOS/DigiTwin/dat
 OutletTemperature =      readtable("/home/ppm/Documents/demos/domOS/DigiTwin/data/EnergyRoad1/OutletTemperature.data", opts);
 DirectSunPowerVertical = readtable("/home/ppm/Documents/demos/domOS/DigiTwin/data/EnergyRoad1/DirectSunPowerVertical.data", opts);
 OutTemp =                readtable("/home/ppm/Documents/demos/domOS/DigiTwin/data/EnergyRoad1/OutTemp.data", opts);
-WindSpeed =              readtable("/home/ppm/Documents/demos/domOS/Matlab/data/EnergyRoad1/WindSpeed.data", opts);
+WindSpeed =              readtable("/home/ppm/Documents/demos/domOS/DigiTwin/data/EnergyRoad1/WindSpeed.data", opts);
 
 
 Room1thermostatssetpoint0 = readtable("/home/ppm/Documents/demos/domOS/DigiTwin/data/EnergyRoad1/Room1thermostatssetpoint0.data", opts);

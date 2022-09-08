@@ -57,7 +57,7 @@ function DataExtractor(apartmentID, data) {
     else {
 
         if (data.hasOwnProperty("InletFlow") && data.hasOwnProperty("InletTemperature") && data.hasOwnProperty("OutletTemperature")) {
-            setDepValueSt(apartmentID, "Power Consumption", data.InletFlow * (data.InletTemperature - data.OutletTemperature) * 4.1813, data.Time);
+            setDepValueSt(apartmentID, "Power Consumption", data.InletFlow * (data.InletTemperature - data.OutletTemperature) * 4.1813 * 2.778, data.Time);
             
         }
     }

@@ -131,7 +131,7 @@ function init_apartment_data_R13sim(id) {
     widgetsR13.push(new Termos(id, "Corridor thermSP2", "Corridor thermMV2", "Corridor thermSP2Ext", 455*scale, 136*scale, size, 15, 30, DynColor, "Corridor 2"));
 
     size = 170*scale;
-    widgetsR13.push(new Gauge(id, "Inlet Flow",         110*scale, 630*scale, size,  0, 0.5, DynColorStd, 'Inlet Flow', 'L/sec', 2));
+    widgetsR13.push(new Gauge(id, "Inlet Flow",         110*scale, 630*scale, size,  0, 0.5, DynColorStd, 'Inlet Flow', 'm3/h', 2));
     widgetsR13.push(new Gauge(id, "Inlet Temperature",  290*scale, 630*scale, size, 20, 100, DynColorStd, 'Inlet Temperature', 'grC', 1));
     widgetsR13.push(new Gauge(id, "Outlet Temperature", 660*scale, 630*scale, size, 20, 100, DynColorStd, 'Outlet Temperature', 'grC', 1));
     widgetsR13.push(new Gauge(id, "Power Consumption",  850*scale, 630*scale, size,  0,  20, DynColorStd, 'Power Consumption', 'kW', 1));
@@ -183,8 +183,8 @@ function init_apartment_data_R63Asim(id) {
     addDepDataSt(id)
 
     let size = 140*scale;
-    widgetsR63A.push(new TempHumiCo2(id, "Kitchen", 300*scale, 120*scale, size));
-    widgetsR63A.push(new TempHumiCo2(id, "Room",    730*scale, 120*scale, size));
+    widgetsR63A.push(new TempHumiCo2NN(id, "Kitchen", 300*scale, 120*scale, size));
+    widgetsR63A.push(new TempHumiCo2NN(id, "Room",    730*scale, 120*scale, size));
    
     size = 90*scale;
     widgetsR63A.push(new Termos(id, "Kitchen thermSP3", "Kitchen thermMV3", "Kitchen thermSP3Ext", 130*scale, 225*scale, size, 15, 30, DynColor, "Living room 3"));
@@ -194,7 +194,7 @@ function init_apartment_data_R63Asim(id) {
     widgetsR63A.push(new Termos(id, "Room thermSP1", "Room thermMV1", "Room thermSP1Ext", 800, 410, size, 15, 30, DynColor, "Room"));
     
     size = 170*scale;
-    widgetsR63A.push(new Gauge(id, "Inlet Flow",         110*scale, 630*scale, size,  0, 0.5, DynColorStd, 'Inlet Flow', 'L/sec', 2));
+    widgetsR63A.push(new Gauge(id, "Inlet Flow",         110*scale, 630*scale, size,  0, 0.5, DynColorStd, 'Inlet Flow', 'm3/h', 2));
     widgetsR63A.push(new Gauge(id, "Inlet Temperature",  290*scale, 630*scale, size, 20, 100, DynColorStd, 'Inlet Temperature', 'grC', 1));
     widgetsR63A.push(new Gauge(id, "Outlet Temperature", 700*scale, 630*scale, size, 20, 100, DynColorStd, 'Outlet Temperature', 'grC', 1));
     widgetsR63A.push(new Gauge(id, "Power Consumption",  880*scale, 630*scale, size,  0,  20, DynColorStd, 'Power Consumption', 'kW', 1));  
@@ -247,12 +247,12 @@ function init_apartment_data_R77sim(id) {
     addDepDataSt(id)
 
     let size = 140*scale;
-    widgetsR77.push(new TempHumiCo2(id, "Room3",     62*scale, 210*scale, size));
-    widgetsR77.push(new TempHumiCo2(id, "Room2",    370*scale, 160*scale, size));
-    widgetsR77.push(new TempHumiCo2(id, "Room1",    545*scale, 160*scale, size));
-    widgetsR77.push(new TempHumiCo2(id, "Kitchen", 1065*scale, 160*scale, size));
-    widgetsR77.push(new TempHumiCo2(id, "Room4",   1295*scale, 235*scale, size));
-    widgetsR77.push(new TempHumiCo2(id, "Room5",   1250*scale,  30*scale, size));
+    widgetsR77.push(new TempHumiCo2NN(id, "Room3",     62*scale, 210*scale, size));
+    widgetsR77.push(new TempHumiCo2NN(id, "Room2",    370*scale, 160*scale, size));
+    widgetsR77.push(new TempHumiCo2NN(id, "Room1",    545*scale, 160*scale, size));
+    widgetsR77.push(new TempHumiCo2NN(id, "Kitchen", 1065*scale, 160*scale, size));
+    widgetsR77.push(new TempHumiCo2NN(id, "Room4",   1295*scale, 235*scale, size));
+    widgetsR77.push(new TempHumiCo2NN(id, "Room5",   1250*scale,  30*scale, size));
 
     size = 90*scale;
     widgetsR77.push(new Termos(id, "Kitchen thermSP1",  "Kitchen thermMV1",  "Kitchen thermSP1Ext", 1150*scale, 410*scale, size, 15, 30, DynColor, "kitchen 1"));
@@ -263,7 +263,7 @@ function init_apartment_data_R77sim(id) {
     //widgetsR77.push(new Termos(id, "Corridor thermSP3", "Corridor thermMV3", "Corridor thermSP3Ext", 680, 135, size, 15, 30, DynColor, "Corridor 3"));
 
     size = 170*scale;
-    widgetsR77.push(new Gauge(id, "Inlet Flow",         250*scale, 630*scale, size,  0, 0.5, DynColorStd, 'Inlet Flow', 'L/sec', 2));
+    widgetsR77.push(new Gauge(id, "Inlet Flow",         250*scale, 630*scale, size,  0, 0.5, DynColorStd, 'Inlet Flow', 'm3/h', 2));
     widgetsR77.push(new Gauge(id, "Inlet Temperature",  450*scale, 630*scale, size, 20, 100, DynColorStd, 'Inlet Temperature', 'grC', 1));
     widgetsR77.push(new Gauge(id, "Outlet Temperature", 900*scale, 630*scale, size, 20, 100, DynColorStd, 'Outlet Temperature', 'grC', 1));
     widgetsR77.push(new Gauge(id, "Power Consumption", 1100*scale, 630*scale, size, 0,  20, DynColorStd, 'Power Consumption', 'kW', 1));

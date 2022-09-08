@@ -34,6 +34,7 @@ function datacv(dataName) {
         case "BedRoom CO2": text = "BedRoomco2"; break;
 
         case "Room Temp": text = "Roomtemperature"; break;
+        case "Room TempNN": text = "Room1temperatureNN"; break;
         case "Room Humi": text = "Roomhumidity"; break;
         case "Room CO2": text = "Roomco2"; break;
         case "Room thermSP1": text = "Roomthermostatssetpoint0"; break;

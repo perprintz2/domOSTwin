@@ -25,9 +25,9 @@ x= [[0, corTmp, 0];
     [0, diffInTemp, 0];
     [0, 0, diffInTemp];
     [0, InletF, 0];
-    [0, 0, InletF];
-    [0, CorridordiffT0, 0];
-    [0, CorridordiffT1, 0]];
+    [0, 0, InletF]];
+%    [0, CorridordiffT0, 0];
+%    [0, CorridordiffT1, 0]];
 
 y= [corTmp, 0, 0];
 

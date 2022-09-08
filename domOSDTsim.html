@@ -202,9 +202,9 @@
 
 </head>
 
-<script> let scale=1.0;
-    if (screen.width == 3840) scale= 1.5;
-    </script>
+<script> let scale = 1.0;
+    if (screen.width == 3840) scale = 1.5;
+</script>
 
 <script>function getMousePos(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
@@ -221,7 +221,7 @@
             <canvas id="DashboardCanvas"></canvas>
 
             <script> var canvas = document.getElementById("DashboardCanvas");
-            canvas.width = screen.width * 0.586;
+                canvas.width = screen.width * 0.586;
                 canvas.height = screen.height * 0.476;
                 let apa = {};
                 let millis = Date.now();
@@ -349,8 +349,13 @@
         </div>
 
         <div id="br">
-            <h3>User guide.</h3>
-            <canvas id="simCanvas" width="900" height="600"></canvas>
+            <div> <button id="SetupSim">SetupSim</h3>
+                <div> <button id="StartSim">StartSim</h3>
+                </div>
+            <div>
+                <h3>User guide.</h3>
+                <canvas id="simCanvas" width="900" height="550"></canvas>
+            </div>
             <script> var canvas2 = document.getElementById("simCanvas");
                 canvas2.width = screen.width * 0.35;
                 canvas2.height = screen.height * 0.417;
@@ -378,6 +383,50 @@
         initSim();
         initGUI();
         jsonHandler();
+
+        document.getElementById("SetupSim").addEventListener("click", setupSim);
+        document.getElementById("StartSim").addEventListener("click", startSim);
+
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+var servient = new Wot.Core.Servient();
+var client = new Wot.Http.HttpClient();
+servient.addClientFactory(new Wot.Http.HttpClientFactory());
+var helpers = new Wot.Core.Helpers(servient);
+
+var apid = urlParams.get('aid');
+var elmid = urlParams.get('elmID');
+var val = urlParams.get('value');
+var simWindow;
+
+function setupSim() {
+    if (simWindow) simWindow.close();
+    simWindow = window.open("http://" + IPadd + ":8080/DigiTwin/simCtrl.html","Simulation Setup", "width=760,height=580,left=400,top=100");
+simWindow["data1"]= [
+            { x: 55, y: 7 },
+            { x: 60, y: 8 },
+            { x: 80, y: 8 },
+            { x: 85, y: 9 },
+            { x: 90, y: 9 },
+            { x: 100, y: 9 },
+            { x: 110, y: 10 },
+            { x: 120, y: 11 },
+            { x: 130, y: 14 },
+            { x: 140, y: 14 },
+            { x: 150, y: 15 }
+        ];
+}
+function startSim()
+{
+
+}
+console.log("OK#")
+
+
+
+
+
     </script>
 
 

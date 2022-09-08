@@ -108,8 +108,9 @@ function setEnergyRoad() {
 
     var elm = [];
     
+    addKlikArc(elm, 160*scale, 200*scale, 80*scale, scd, 'EnergyRoad2');
     addKlikArc(elm, 437*scale, 550*scale, 80*scale, scd, 'EnergyRoad1');
-   
+    addKlikArc(elm, 638*scale, 256*scale, 80*scale, scd, 'EnergyRoad3');
     var ctx2 = c.getContext("2d");
 
     elLeft = c.offsetLeft + c.clientLeft,

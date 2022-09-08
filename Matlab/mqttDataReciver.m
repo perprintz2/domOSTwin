@@ -1,5 +1,7 @@
 %Create Mqtt connection
-global iii ...
+clear
+clear ALL
+global iii iii2 ...
     Corridorco2 Corridorhumidity Corridortemperature CorridortemperatureNN ...
     Room1co2 Room1humidity Room1temperature Room1temperatureNN ...
     Room2co2 Room2humidity Room2temperature Room2temperatureNN ...
@@ -8,13 +10,18 @@ global iii ...
     Room1diT0 Room1diT1 ...
     KitchendiT0 KitchendiT1 ... 
     CorridordiT0 CorridordiT1 ...
+        ER2RoomdiT0 ER2KitchendiT0 ER2KitchendiT1 ER2KitchendiT2 ...
+    ER2Roomco2 ER2Roomhumidity ER2Roomtemperature ER2RoomtemperatureNN ...
+    ER2Kitchenco2 ER2Kitchenhumidity ER2Kitchentemperature ER2KitchentemperatureNN...
     myMQTT ...
     Room1extx Room1exty Room1nn_net ...
     Room2extx Room2exty Room2nn_net ...
     Room4extx Room4exty Room4nn_net ...
     Corridorextx Corridorexty Corridornn_net ...
     Kitchenextx Kitchenexty Kitchennn_net ...
-    offset InletFlow DiffTemp OutsideTemp WindSpeed DirectSunPowerVertical
+    ER2Roomextx ER2Roomexty ER2Roomnn_net ...
+    ER2Kitchenextx ER2Kitchenexty ER2Kitchennn_net ...
+    offset InletFlow DiffTemp ER2InletFlow ER2DiffTemp OutsideTemp WindSpeed DirectSunPowerVertical
 
 %load('nn.mat')
 %load('ext.mat')
@@ -34,6 +41,12 @@ Kitchennn_net=nn_net;
 
 load('TrainedNet/CorridorTempNN.mat')
 Corridornn_net=nn_net;
+
+load('TrainedNet/ER2RoomTempNN.mat')
+ER2Roomnn_net=nn_net;
+
+load('TrainedNet/ER2KitchenTempNN.mat')
+ER2Kitchennn_net=nn_net;
 
 
 load('TrainedNet/Room1ext.mat')
@@ -56,6 +69,14 @@ load('TrainedNet/Corridorext.mat')
 Corridorextx=extx;
 Corridorexty= exty;
 
+
+load('TrainedNet/ER2Roomext.mat')
+ER2Roomextx=extx;
+ER2Roomexty= exty;
+
+load('TrainedNet/ER2Kitchenext.mat')
+ER2Kitchenextx=extx;
+ER2Kitchenexty= exty;
 
 
 %load('tot.mat')
@@ -87,18 +108,26 @@ Kitchenhumidity= ones(1,5)*50;
 Kitchentemperature= ones(1,5)*21;
 KitchentemperatureNN= ones(1,5)*21;
 
+ER2Kitchenco2= ones(1,5)*50;
+ER2Kitchenhumidity= ones(1,5)*50;
+ER2Kitchentemperature= ones(1,5)*21;
+ER2KitchentemperatureNN= ones(1,5)*21;
+
+ER2Roomco2= ones(1,5)*50;
+ER2Roomhumidity= ones(1,5)*50;
+ER2Roomtemperature= ones(1,5)*21;
+ER2RoomtemperatureNN= ones(1,5)*21;
+
 
 OutsideTemp= ones(1,5)*3;
 WindSpeed= ones(1,5)*4;
 DirectSunPowerVertical= ones(1,5)*0.4;
 iii=5;
-
+iii2=5;
 
 
 myMQTT=mqttclient('tcp://deis-mqtt01.cs.aau.dk');
 
-%Subscribe to a topic
-%iii= 5;
 mySub = subscribe(myMQTT,'domOS/#', 'callback','showMessage');
 %while 1
 %    pause(1);

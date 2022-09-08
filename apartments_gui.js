@@ -122,7 +122,7 @@ function init_apartment_data_R13(id) {
     widgetsR13.push(new Termos(id, "Corridor thermSP2", "Corridor thermMV2", "Corridor thermSP2Ext", 455 * scale, 136 * scale, size, 15, 30, DynColor, "Corridor 2"));
 
     size = 170 * scale;
-    widgetsR13.push(new Gauge(id, "Inlet Flow", 110 * scale, 630 * scale, size, 0, 0.5, DynColorStd, 'Inlet Flow', 'L/sec', 2));
+    widgetsR13.push(new Gauge(id, "Inlet Flow", 110 * scale, 630 * scale, size, 0, 0.5, DynColorStd, 'Inlet Flow', 'm3/h', 2));
     widgetsR13.push(new Gauge(id, "Inlet Temperature", 290 * scale, 630 * scale, size, 20, 100, DynColorStd, 'Inlet Temperature', 'grC', 1));
     widgetsR13.push(new Gauge(id, "Outlet Temperature", 660 * scale, 630 * scale, size, 20, 100, DynColorStd, 'Outlet Temperature', 'grC', 1));
     widgetsR13.push(new Gauge(id, "Power Consumption", 850 * scale, 630 * scale, size, 0, 20, DynColorStd, 'Power Consumption', 'kW', 1));
@@ -147,10 +147,9 @@ function draw_apartment_gui_R13(ctx, id) {
         ctx.font = "24.5px Times New Roman";
         ctx.fillStyle = "#000000";
         ctx.fillText(id + ": -- Real data --", 15, 27);
-        ctx.font = "bold " + 9 + "px Arial";
+        ctx.font = "bold " + 11 + "px Arial";
         ctx.fillStyle = "#000000";
-        ctx.fillText("Simulated Temperature", 1170 * scale, 223 * scale,);
-        //ctx.fillText("NeuralNet Temperature", 1170*scale,    523*scale,);
+        ctx.fillText("ODE model", 1164*scale,    223*scale,);
         ctx.fillText("Outside Temperature", 1320 * scale, 143 * scale,);
         ctx.stroke();
         let wLen = widgetsR13.length;
@@ -186,7 +185,7 @@ function init_apartment_data_R63A(id) {
     widgetsR63A.push(new Termos(id, "Room thermSP1", "Room thermMV1", "Room thermSP1Ext", 800 * scale, 410 * scale, size, 15, 30, DynColor, "Room"));
 
     size = 170 * scale;
-    widgetsR63A.push(new Gauge(id, "Inlet Flow", 110 * scale, 630 * scale, size, 0, 0.5, DynColorStd, 'Inlet Flow', 'L/sec', 2));
+    widgetsR63A.push(new Gauge(id, "Inlet Flow", 110 * scale, 630 * scale, size, 0, 0.5, DynColorStd, 'Inlet Flow', 'm3/h', 2));
     widgetsR63A.push(new Gauge(id, "Inlet Temperature", 290 * scale, 630 * scale, size, 20, 100, DynColorStd, 'Inlet Temperature', 'grC', 1));
     widgetsR63A.push(new Gauge(id, "Outlet Temperature", 700 * scale, 630 * scale, size, 20, 100, DynColorStd, 'Outlet Temperature', 'grC', 1));
     widgetsR63A.push(new Gauge(id, "Power Consumption", 880 * scale, 630 * scale, size, 0, 20, DynColorStd, 'Power Consumption', 'kW', 1));
@@ -255,7 +254,7 @@ function init_apartment_data_R77(id) {
     //widgetsR77.push(new Termos(id, "Corridor thermSP3", "Corridor thermMV3", "Corridor thermSP3Ext", 680, 135, size, 15, 30, DynColor, "Corridor 3"));
 
     size = 170 * scale;
-    widgetsR77.push(new Gauge(id, "Inlet Flow", 250 * scale, 630 * scale, size, 0, 0.5, DynColorStd, 'Inlet Flow', 'L/sec', 2));
+    widgetsR77.push(new Gauge(id, "Inlet Flow", 250 * scale, 630 * scale, size, 0, 0.5, DynColorStd, 'Inlet Flow', 'm3/h', 2));
     widgetsR77.push(new Gauge(id, "Inlet Temperature", 450 * scale, 630 * scale, size, 20, 100, DynColorStd, 'Inlet Temperature', 'grC', 1));
     widgetsR77.push(new Gauge(id, "Outlet Temperature", 900 * scale, 630 * scale, size, 20, 100, DynColorStd, 'Outlet Temperature', 'grC', 1));
     widgetsR77.push(new Gauge(id, "Power Consumption", 1100 * scale, 630 * scale, size, 0, 20, DynColorStd, 'Power Consumption', 'kW', 1));
