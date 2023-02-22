@@ -30,17 +30,117 @@ yc= y(:,3:size(y,2)-2);
 [ycn,exty]= mapstd(yc);
 
 save 'TrainedNet/Room4ext.mat' extx exty
+fName= 'TrainedNet/Room4TempNN';
+ysim= zeros(1,length(xcn));
 
-antN= 16;
+errtottot=1e6;
+for k=[8,10,12,14,16,18,20,24,28,32,40]
 
-% Build the network
-nn_net = feedforwardnet(antN, 'trainlm'); % learning methode: Levenberg-Marquardt
+    %antN= k;
+    antN= [k,4];
+    errtotOld=1e6;
 
-% nn_net = feedforwardnet(antN, 'traingd');
-nn_net.trainParam.epochs = 1000;
+    for c= 1:10
+        % Build the network
+        nn_net = feedforwardnet(antN, 'trainlm'); % learning methode: Levenberg-Marquardt
 
-% train the network using the default 
-nn_net = train(nn_net,xcn,ycn);
-save 'TrainedNet/Room4TempNN.mat' nn_net
-ynet = nn_net(xcn);
-ytmp= mapstd('reverse',ynet,exty);
+        % nn_net = feedforwardnet(antN, 'traingd');
+        nn_net.trainParam.epochs = 1000;
+
+        % train the network using the default
+        nn_net = train(nn_net,xcn,ycn);
+        ysimOld= xcn(1,1);
+
+        for l=1:length(xcn)-1
+            ysim(l) = nn_net(xcn(:,l));
+            xcn(1,l+1)= ysim(l);
+            xcn(2,l+1)= ysimOld;
+            ysimOld= ysim(l);
+           
+        end
+
+        ytmp= mapstd('reverse',ysim,exty);
+        err= yc-ytmp;
+        errtotsim= err*err';
+        %fprintf('s: %i n: %i - toterror %2.3d\n',c,k,errtotsim)
+      
+        ynet = nn_net(xcn);
+        ytmp= mapstd('reverse',ynet,exty);
+        err= yc-ytmp;
+        errtot= err*err';
+        if errtotsim < errtotOld
+            fnameNy= [fName num2str(k) '.mat'];
+            save(fnameNy, 'nn_net', 'errtotsim');
+            errtotOld= errtotsim;
+            fprintf('s: %i n: %i - toterror %2.3d\n',c,k,errtotsim)
+            if errtottot > errtotsim
+                fnameNy= [fName '.mat'];
+                save(fnameNy, 'nn_net', 'errtotsim');
+                errtottot=errtotsim;
+                fprintf('Net saved\n');
+
+            end
+        end
+        %fprintf('s: %i n: %i - toterror %2.3d\n',c,k,errtot)
+
+    end
+
+end
+
+
+
+
+
+for k=[8,10,12,14,16,18,20,24,28,32,40]
+
+    antN= k;
+    %antN= [k,6];
+    errtotOld=1e6;
+
+    for c= 1:10
+        % Build the network
+        nn_net = feedforwardnet(antN, 'trainlm'); % learning methode: Levenberg-Marquardt
+
+        % nn_net = feedforwardnet(antN, 'traingd');
+        nn_net.trainParam.epochs = 1000;
+
+        % train the network using the default
+        nn_net = train(nn_net,xcn,ycn);
+        ysimOld= xcn(1,1);
+
+        for l=1:length(xcn)-1
+            ysim(l) = nn_net(xcn(:,l));
+            xcn(1,l+1)= ysim(l);
+            xcn(2,l+1)= ysimOld;
+            ysimOld= ysim(l);
+           
+        end
+
+        ytmp= mapstd('reverse',ysim,exty);
+        err= yc-ytmp;
+        errtotsim= err*err';
+        %fprintf('s: %i n: %i - toterror %2.3d\n',c,k,errtotsim)
+      
+        ynet = nn_net(xcn);
+        ytmp= mapstd('reverse',ynet,exty);
+        err= yc-ytmp;
+        errtot= err*err';
+        if errtotsim < errtotOld
+            fnameNy= [fName num2str(k) '.mat'];
+            save(fnameNy, 'nn_net', 'errtotsim');
+            errtotOld= errtotsim;
+            fprintf('s: %i n: %i - toterror %2.3d\n',c,k,errtotsim)
+            if errtottot > errtotsim
+                fnameNy= [fName '.mat'];
+                save(fnameNy, 'nn_net', 'errtotsim');
+                errtottot=errtotsim;
+                fprintf('Net saved\n');
+
+            end
+        end
+        %fprintf('s: %i n: %i - toterror %2.3d\n',c,k,errtot)
+
+    end
+
+end
+

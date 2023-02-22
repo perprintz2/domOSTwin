@@ -8,7 +8,9 @@ node ./WSserver.js &
 cd ..
 node ./Webserver/d1.js &
 Rscript ./Rsrc/simStart.R &
-cd ./Matlab
+cd ../WoTDomOS
+node ./wotMain.js &
+cd ../DigiTwin/Matlab
 google-chrome http://172.25.12.11:8080/DigiTwin/domOSDTsim.html &
 google-chrome http://172.25.12.11:8080/DigiTwin/index.html &
-/home/ppm/matlab -nodisplay -nosplash -nodesktop -r "run('/home/ppm/Documents/demos/domOS/DigiTwin/Matlab/mqttDataReciver.m');"
+/home/ppm/matlab -nodisplay -nosplash -nodesktop -r "run('/home/ppm/Documents/demos/domOS/DigiTwin/Matlab/mqttDataReciver.m');" 

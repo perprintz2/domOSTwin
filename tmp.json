@@ -1,0 +1,78 @@
+{
+    "apartmentID": 2495,
+    "LocationId": 2495,
+    "Time": 1657272418234,
+    "Address": "Aalborg East Building #2",
+    "InletTemperature": 49.46,
+    "OutletTemperature": 36.68,
+    "InletFlow": 0,
+    "Rooms": {
+        "Bathroom": {
+            "zoneId": 3930,
+            "thermostats": []
+        },
+        "Room2": {
+            "zoneId": 3925,
+            "temperature": 24.34,
+            "humidity": 50.300000000000004,
+            "co2": 438,
+            "thermostats": []
+        },
+        "Corridor": {
+            "zoneId": 3919,
+            "temperature": 24.45,
+            "humidity": 49.7,
+            "co2": 510,
+            "thermostats": [
+                {},
+                {
+                    "setpoint": 6.5,
+                    "temperature": 24
+                }
+            ]
+        },
+        "Kitchen": {
+            "zoneId": 3916,
+            "temperature": 25.51,
+            "humidity": 47.6,
+            "co2": 496,
+            "thermostats": [
+                {
+                    "setpoint": 6,
+                    "temperature": 24.5
+                },
+                {
+                    "setpoint": 6,
+                    "temperature": 25
+                }
+            ]
+        },
+        "Room1": {
+            "zoneId": 3922,
+            "temperature": 25.310000000000002,
+            "humidity": 48,
+            "co2": 440,
+            "thermostats": [
+                {
+                    "setpoint": 6,
+                    "temperature": 25.5
+                },
+                {
+                    "setpoint": 6,
+                    "temperature": 25
+                }
+            ]
+        },
+        "Room3": {
+            "zoneId": 3926,
+            "thermostats": []
+        },
+        "Room4": {
+            "zoneId": 3927,
+            "temperature": 24.82,
+            "humidity": 48.800000000000004,
+            "co2": 476,
+            "thermostats": []
+        }
+    }
+}

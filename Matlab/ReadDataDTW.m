@@ -1,6 +1,6 @@
 clear
 
-!scp -r cs\\sz33iz@130.225.57.117:/srv/domOS/* /home/ppm/Documents/demos/domOS/DigiTwin
+%!scp -r cs\\sz33iz@130.225.57.117:/srv/domOS/* /home/ppm/Documents/demos/domOS/DigiTwin
 
 opts = delimitedTextImportOptions("NumVariables", 2);
 
@@ -194,13 +194,13 @@ i=1;
     
     
     diffInTemp= InletTemp- OutletTemp;
-    Room1diffT0= Room1tSP0 - Room1tt0;
-    Room1diffT1= Room1tSP1 - Room1tt1;
+    Room1spT0= Room1tSP0;
+    Room1spT1= Room1tSP1;
     
-    CorridordiffT0= CorridortSP0 - Corridortt0;
-    CorridordiffT1= CorridortSP1 - Corridortt1;
+    CorridorspT0= CorridortSP0;
+    CorridorspT1= CorridortSP1;
     
-    KitchendiffT0= KitchentSP0 - Kitchentt0;
-    KitchendiffT1= KitchentSP1 - Kitchentt1;
+    KitchenspT0= KitchentSP0;
+    KitchenspT1= KitchentSP1;
     
     

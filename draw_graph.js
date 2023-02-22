@@ -112,7 +112,7 @@ function draw_graph(ctx, data) {
             pointRadius: 0,
             pointHitRadius: 5,
             fill: false,
-            lineTension: 0.4,
+            lineTension: 0.2,
             scales: {
                 x: {
                     ticks: {

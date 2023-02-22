@@ -183,7 +183,7 @@
     </style>
 
 
-    <script src="const.js"></script>
+    <script src="config.js"></script>
     <script src="apartments_guisim.js"></script>
     <script src="draw_widgets.js"></script>
     <script src="draw_graph.js"></script>
@@ -349,87 +349,306 @@
         </div>
 
         <div id="br">
-            <div> <button id="SetupSim">SetupSim</h3>
-                <div> <button id="StartSim">StartSim</h3>
+            <div id="bl" class="wrapper">
+
+                <div class="dropdown">
+                    <button class="dropbtn">Setup Sim.</button>
+                    <div class="dropdown-content">
+                        <button type="button" onclick="setupSim(0)">EnergyRoad1</button>
+                        <button type="button" onclick="setupSim(1)">EnergyRoad2</button>
+                        <button type="button" onclick="setupSim(2)">EnergyRoad3 </button>
+                    </div>
                 </div>
-            <div>
-                <h3>User guide.</h3>
-                <canvas id="simCanvas" width="900" height="550"></canvas>
+
             </div>
-            <script> var canvas2 = document.getElementById("simCanvas");
-                canvas2.width = screen.width * 0.35;
-                canvas2.height = screen.height * 0.417;
-                var milliss = Date.now();
-                var ctxs = canvas2.getContext("2d");
-                //init_Sim("sim")
-                draw_logo(ctxs, "sim")
-
-            </script>
-
+            <canvas id="simCanvas" width="900" height="550"></canvas>
         </div>
+        <script> var canvas2 = document.getElementById("simCanvas");
+            canvas2.width = screen.width * 0.35;
+            canvas2.height = screen.height * 0.417;
+            var milliss = Date.now();
+            var ctxs = canvas2.getContext("2d");
+            //init_Sim("sim")
+            draw_logo(ctxs, "sim")
+
+        </script>
+
     </div>
-    <script>
-        const labels = [
+</div>
+<script>
+    const labels = [
 
-        ];
-        const data = {
-            //labels: labels,
-            datasets: [{
-                data: [{}],
-            }]
-        };
-        draw_graph(document.getElementById("myChart"), data)
+    ];
+    const data = {
+        //labels: labels,
+        datasets: [{
+            data: [{}],
+        }]
+    };
+    draw_graph(document.getElementById("myChart"), data)
 
-        initSim();
-        initGUI();
-        jsonHandler();
+    initSim();
+    initGUI();
+    jsonHandler();
 
-        document.getElementById("SetupSim").addEventListener("click", setupSim);
-        document.getElementById("StartSim").addEventListener("click", startSim);
-
-
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-var servient = new Wot.Core.Servient();
-var client = new Wot.Http.HttpClient();
-servient.addClientFactory(new Wot.Http.HttpClientFactory());
-var helpers = new Wot.Core.Helpers(servient);
-
-var apid = urlParams.get('aid');
-var elmid = urlParams.get('elmID');
-var val = urlParams.get('value');
-var simWindow;
-
-function setupSim() {
-    if (simWindow) simWindow.close();
-    simWindow = window.open("http://" + IPadd + ":8080/DigiTwin/simCtrl.html","Simulation Setup", "width=760,height=580,left=400,top=100");
-simWindow["data1"]= [
-            { x: 55, y: 7 },
-            { x: 60, y: 8 },
-            { x: 80, y: 8 },
-            { x: 85, y: 9 },
-            { x: 90, y: 9 },
-            { x: 100, y: 9 },
-            { x: 110, y: 10 },
-            { x: 120, y: 11 },
-            { x: 130, y: 14 },
-            { x: 140, y: 14 },
-            { x: 150, y: 15 }
-        ];
-}
-function startSim()
-{
-
-}
-console.log("OK#")
+    //document.getElementById("SetupSim").addEventListener("click", setupSim);
+    document.getElementById("StartSim").addEventListener("click", startSim);
 
 
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    var servient = new Wot.Core.Servient();
+    var client = new Wot.Http.HttpClient();
+    servient.addClientFactory(new Wot.Http.HttpClientFactory());
+    var helpers = new Wot.Core.Helpers(servient);
+
+    var apid = urlParams.get('aid');
+    var elmid = urlParams.get('elmID');
+    var val = urlParams.get('value');
+    var simWindow1;
+    var simWindow2;
+    var simWindow3;
+
+
+    var ER1data= {};
+
+
+    function setupSim(nr) {
+        var ThermData = [];
+        for (let x in ER1SimInputTherm) {
+
+            // console.log("x: " + ER1SimInputTemp[x]);
+            // console.log("data: " + getDepValueSt("EnergyRoad1", ER1SimInputTemp[x]));
+            // console.log("time: " + getDepLabelSt("EnergyRoad1", ER1SimInputTemp[x]));
+            ThermData.push(
+                { x: getDepLabelSt("EnergyRoad1", ER1SimInputTherm[x]), y: getDepValueSt("EnergyRoad1", ER1SimInputTherm[x]) }
+            );
+
+        }
+
+
+        var TmpData = [];
+        for (let x in ER1SimInputTemp) {
+
+            // console.log("x: " + ER1SimInputTemp[x]);
+            // console.log("data: " + getDepValueSt("EnergyRoad1", ER1SimInputTemp[x]));
+            // console.log("time: " + getDepLabelSt("EnergyRoad1", ER1SimInputTemp[x]));
+            TmpData.push(
+                { x: getDepLabelSt("EnergyRoad1", ER1SimInputTemp[x]), y: getDepValueSt("EnergyRoad1", ER1SimInputTemp[x]) }
+            );
+
+        }
+
+
+        var HumData = [];
+        for (let x in ER1SimInputHumi) {
+
+            // console.log("x: " + ER1SimInputTemp[x]);
+            // console.log("data: " + getDepValueSt("EnergyRoad1", ER1SimInputTemp[x]));
+            // console.log("time: " + getDepLabelSt("EnergyRoad1", ER1SimInputTemp[x]));
+            HumData.push(
+                { x: getDepLabelSt("EnergyRoad1", ER1SimInputHumi[x]), y: getDepValueSt("EnergyRoad1", ER1SimInputHumi[x]) }
+            );
+
+        }
+
+        var CO2Data = [];
+        for (let x in ER1SimInputCO2) {
+
+            // console.log("x: " + ER1SimInputTemp[x]);
+            // console.log("data: " + getDepValueSt("EnergyRoad1", ER1SimInputTemp[x]));
+            // console.log("time: " + getDepLabelSt("EnergyRoad1", ER1SimInputTemp[x]));
+            CO2Data.push(
+                { x: getDepLabelSt("EnergyRoad1", ER1SimInputCO2[x]), y: getDepValueSt("EnergyRoad1", ER1SimInputCO2[x]) }
+            );
+
+        }
+        var outsideData = [];
+        for (let x in OutsideData) {
+
+            console.log("x: " + OutsideData[x]);
+            console.log("data: " + getDepValueSt("EnergyRoad1", OutsideData[x]));
+            console.log("time: " + getDepLabelSt("EnergyRoad1", OutsideData[x]));
+            outsideData.push(
+                { x: getDepLabelSt("EnergyRoad1", OutsideData[x]), y: getDepValueSt("EnergyRoad1", OutsideData[x]) }
+            );
+
+        }
+
+        var dHeatingData = [];
+        for (let x in DHeatingData) {
+
+            console.log("x: " + DHeatingData[x]);
+            console.log("data: " + getDepValueSt("EnergyRoad1", DHeatingData[x]));
+            console.log("time: " + getDepLabelSt("EnergyRoad1", DHeatingData[x]));
+            dHeatingData.push(
+                { x: getDepLabelSt("EnergyRoad1", DHeatingData[x]), y: getDepValueSt("EnergyRoad1", DHeatingData[x]) }
+            );
+
+        }
+
+        ER1data = {
+            thlabel: ER1SimInputTherm, thsetup: ThermSetup, thdata: ThermData,
+            tlabel: ER1SimInputTemp, tsetup: TempSetup, tdata: TmpData,
+            hlabel: ER1SimInputHumi, hsetup: HumiSetup, hdata: HumData,
+            clabel: ER1SimInputCO2, csetup: CO2Setup, cdata: CO2Data,
+            olabel: OutsideData, osetup: OutsideSetup, odata: outsideData,
+            dhlabel: DHeatingData, dhsetup: DHeatingSetup, dhdata: dHeatingData
+        }
+
+        if (simWindow1) {
+            console.log("simWindow1");
+            simWindow1.close();
+            simWindow1 = false;
+        }
+        if (simWindow2) {
+            console.log("simWindow2");
+            simWindow2.close();
+            simWindow2 = false;
+
+        }
+        if (simWindow3) {
+            console.log("simWindow3");
+            simWindow3.close();
+            simWindow3 = false;
+
+
+        }
+        console.log("nr: " + nr);
+        console.log("OutsideData: " + OutsideData);
+        switch (nr) {
+            case 0:
+
+                simWindow1 = window.open("http://" + IPadd + ":8080/DigiTwin/simCtrl.html", "Simulation Setup1", "width=960,height=1200,left=400,top=100");
+                //console.log("nrwww: " + nr);
+                console.log("nrwww1: " + ER1data.hlabel);
+
+                simWindow1.Data = structuredClone(ER1data);
+
+                console.log("nrwww2: " + ER1data.hlabel);
+
+                
+                // simWindow2 = window.open("http://" + IPadd + ":8080/DigiTwin/simCtrlHumi.html", "Simulation Setup2", "width=960,height=600,left=600,top=300");
+                // console.log("nrwww3: " + ER1data.hlabel);
+                // simWindow2.Data2 = structuredClone(ER1data);
+                // //setTimeout(() => { console.log("World!"); }, 5000);
+                
+                
+                
+                
+                
+                console.log("nrwww4: " + ER1data.hlabel);
+
+
+                // simWindow2 = window.open("http://" + IPadd + ":8080/DigiTwin/simCtrlHumi.html", "Simulation Setup2", "width=960,height=600,left=600,top=300");
+                // console.log("nrwww: " + nr);
+
+                // //simWindow2["hLabel"] = "akjdshgf";
+                // simWindow2["hLabel"] = ER1SimInputHumi;
+                // simWindow2["hSetup"] = HumiSetup;
+                // const TmpData2 = [];
+                // for (let x in  ER1SimInputHumi) {
+
+                //     console.log("x: " +  ER1SimInputHumi[x]);
+                //     console.log("data: " + getDepValueSt("EnergyRoad1",  ER1SimInputHumi[x]));
+                //     console.log("time: " + getDepLabelSt("EnergyRoad1",  ER1SimInputHumi[x]));
+                //     TmpData2.push(
+                //         { x: getDepLabelSt("EnergyRoad1",  ER1SimInputHumi[x]), y: getDepValueSt("EnergyRoad1",  ER1SimInputHumi[x]) }
+                //     );
+
+                // }
+                // simWindow2["hData"] = TmpData2;
 
 
 
-    </script>
+                break;
+
+            case 1:
+                //if (simWindow2) simWindow2.close();
+
+                simWindow2 = window.open("http://" + IPadd + ":8080/DigiTwin/simCtrl.html", "Simulation Setup2", "width=760,height=580,left=400,top=100");
+                simWindow2["data"] = [[
+
+                    { x: 55, y: 4 },
+                    { x: 60, y: 5 },
+                    { x: 80, y: 8 },
+                    { x: 85, y: 5 },
+                    { x: 90, y: 9 },
+                    { x: 100, y: 5 },
+                    { x: 110, y: 15 },
+                    { x: 120, y: 5 },
+                    { x: 130, y: 14 },
+                    { x: 140, y: 14 },
+                    { x: 150, y: 15 }
+                ],
+                [
+                    { x: 55, y: 5 },
+                    { x: 60, y: 6 },
+                    { x: 80, y: 9 },
+                    { x: 85, y: 6 },
+                    { x: 90, y: 10 },
+                    { x: 100, y: 5 },
+                    { x: 110, y: 16 },
+                    { x: 120, y: 6 },
+                    { x: 130, y: 15 },
+                    { x: 140, y: 14 },
+                    { x: 150, y: 16 }
+                ]
+                ];
+                break;
+
+            case 2:
+
+                simWindow3 = window.open("http://" + IPadd + ":8080/DigiTwin/simCtrl.html", "Simulation Setup3", "width=760,height=580,left=400,top=100");
+                simWindow3["data"] = [[
+
+                    { x: 55, y: 4 },
+                    { x: 60, y: 5 },
+                    { x: 80, y: 8 },
+                    { x: 85, y: 5 },
+                    { x: 90, y: 9 },
+                    { x: 100, y: 5 },
+                    { x: 110, y: 15 },
+                    { x: 120, y: 5 },
+                    { x: 130, y: 14 },
+                    { x: 140, y: 14 },
+                    { x: 150, y: 15 }
+                ],
+                [
+                    { x: 55, y: 5 },
+                    { x: 60, y: 6 },
+                    { x: 80, y: 9 },
+                    { x: 85, y: 6 },
+                    { x: 90, y: 10 },
+                    { x: 100, y: 5 },
+                    { x: 110, y: 16 },
+                    { x: 120, y: 6 },
+                    { x: 130, y: 15 },
+                    { x: 140, y: 14 },
+                    { x: 150, y: 16 }
+                ]
+                ];
+                break;
+        }
+    }
+    function startSim() {
+
+        if (!simSubmit) {}
+        else {
+        console.log("Start Sim")
+
+        console.log("hfhfhf: " + simWindow1["returData1"][0].data[0].y);
+        console.log("hfhfhf: " + simWindow1["returData2"][0].data[0].y);
+        console.log("hfhfhf: " + simWindow1["returData3"][0].data[0].y);
 
 
-    </body>
+
+
+        console.log(simWindow1["data"]);
+        }
+    }
+    console.log("OK#")
+</script>
+</body>
 
 </html>

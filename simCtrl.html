@@ -15,9 +15,11 @@
     <script src="https://cdn.jsdelivr.net/npm/@node-wot/browser-bundle@latest/dist/wot-bundle.min.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@2.2.3/dist/chartjs-plugin-dragdata.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"
+        type="text/javascript"></script>
+
     <script>
         function init() {
-
 
         }
 
@@ -41,75 +43,89 @@
 
         window.onload = init;
         window.addEventListener("resize", onResize);
-        
-        function ff(item)
-        {
-            console.log("data1 x: "+item.x);
-            console.log("data1 y "+item.y);
-        }
-        window["data1"].forEach(ff);
-        //console.log("data1: "+window["data1"][1].x);
 
     </script>
+    <style>
+        h3 {
+            text-align: center;
+        }
+
+        #myChart0,
+        #myChart1,
+        #myChart2,
+        #myChart3,
+        #myChart4,
+        #myChart5 {
+            margin: 10px;
+            border-radius: 15px;
+            /*   Check out the fancy shadow  on this one */
+            box-shadow: 0 3rem 5rem -2rem rgba(0, 0, 0, 0.6);
+            background-color: white;
+
+        }
+
+
+        #sim {
+            font-family: cursive, sans-serif;
+            background-color: #81e92c;
+            padding: 20px;
+            border-radius: 15px;
+            /*   Check out the fancy shadow  on this one */
+            box-shadow: 0 3rem 5rem -2rem rgba(0, 0, 0, 0.6);
+            background-color: white;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
     <div>
         <div>
-            <canvas id="myChart"></canvas>
+            <canvas id="myChart0"></canvas>
         </div>
         <div>
-            <button id="submit">Submit</h3>
+            <canvas id="myChart1"></canvas>
+        </div>
+        <div>
+            <canvas id="myChart2"></canvas>
+        </div>
+        <div>
+            <canvas id="myChart3"></canvas>
+        </div>
+        <div>
+            <canvas id="myChart4"></canvas>
+        </div>
+        <div>
+            <canvas id="myChart5"></canvas>
+        </div>
+        <div id="sim">Push to:
+            <button id="submit">Start simulation</h3>
         </div>
     </div>
 
     <script>
         let plotColor = ['rgb( 255,  0,   0)',
-    'rgb(  0, 200,   0)',
-    'rgb(  0,   0, 255)',
-    'rgb(210, 210,  0)',
-    'rgb(  0, 220, 220)',
-    'rgb(255,  0,  255)',
-    'rgb(170,  170,  170)',
-    'rgb(0,  0,  0)',
-    'rgb(207,  91,  41)',
-    'rgb(104,  168,  85)',
+            'rgb(  0, 200,   0)',
+            'rgb(  0,   0, 255)',
+            'rgb(210, 210,  0)',
+            'rgb(  0, 220, 220)',
+            'rgb(255,  0,  255)',
+            'rgb(170,  170,  170)',
+            'rgb(0,  0,  0)',
+            'rgb(207,  91,  41)',
+            'rgb(104,  168,  85)',
 
-];
+        ];
 
-function pColor(i) {
-    if (i < 10) {
-        return plotColor[i];
-    }
-    return 'rgb(' + Math.round(Math.random() * 255.0) + ',' + Math.round(Math.random() * 255.0) + ',' + Math.round(Math.random() * 255.0) + ')';
-}
-        var xyValues = [
-            { x: 55, y: 7 },
-            { x: 60, y: 8 },
-            { x: 80, y: 8 },
-            { x: 85, y: 9 },
-            { x: 90, y: 9 },
-            { x: 100, y: 9 },
-            { x: 110, y: 10 },
-            { x: 120, y: 11 },
-            { x: 130, y: 14 },
-            { x: 140, y: 14 },
-            { x: 150, y: 15 }
-        ];
-        var xyValues2 = [
-            { x: 50, y: 17 },
-            { x: 60, y: 12 },
-            { x: 70, y: 9 },
-            { x: 80, y: 10 },
-            { x: 90, y: 9 },
-            { x: 100, y: 9 },
-            { x: 110, y: 10 },
-            { x: 120, y: 11 },
-            { x: 130, y: 14 },
-            { x: 140, y: 14 },
-            { x: 150, y: 15 }
-        ];
-        const draggableChart = new Chart(document.getElementById("myChart"), {
+        function pColor(i) {
+            if (i < 10) {
+                return plotColor[i];
+            }
+            return 'rgb(' + Math.round(Math.random() * 255.0) + ',' + Math.round(Math.random() * 255.0) + ',' + Math.round(Math.random() * 255.0) + ')';
+        }
+
+
+        const chConfig0 = {
             type: 'scatter',
             data: [],
             options: {
@@ -117,8 +133,8 @@ function pColor(i) {
                     scatter: {
                         borderWidth: 2.5,
                         fill: false,
-                        pointRadius: 5,
-                        pointHitRadius: 15,
+                        pointRadius: 3,
+                        pointHitRadius: 4,
                         showLine: true
                     }
                 },
@@ -131,6 +147,53 @@ function pColor(i) {
                     }
                 },
                 plugins: {
+                    title: {
+                        display: true,
+                        text: 'Future rum thermostat setting',
+                        font: {
+                            size: 20,
+                            titleColor: 'black'
+                        },
+
+                    },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: 'white',
+                        borderColor: 'hsl(209, 100%, 50%)',
+                        borderWidth: 1,
+                        titleColor: 'black',
+                        displayColors: false,
+                        callbacks: {
+                            label: function (context) {
+                                let label = context.dataset.label || '';
+
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += new Intl.NumberFormat('en-US').format(context.parsed.y);
+                                }
+                                return label;
+                            }, labelColor: function (context) {
+                                return {
+                                    borderColor: 'rgb(0, 0, 255)',
+                                    backgroundColor: 'rgb(255, 0, 0)',
+                                    borderWidth: 2,
+                                    borderDash: [2, 2],
+                                    borderRadius: 2,
+                                };
+                            },
+                            labelTextColor: function (context) {
+                                return context.dataset.borderColor;
+                            }
+                        }
+
+                    },
+
+
+
+
+
                     dragData: {
                         round: 1, // rounds the values to n decimal places 
                         // in this case 1, e.g 0.1234 => 0.1)
@@ -165,38 +228,960 @@ function pColor(i) {
                             console.log("datasetIndex: " + datasetIndex);
                             console.log("index: " + index);
                             console.log("value end x: " + value.x + "value end y: " + value.y);
+
+                            for (let y = index + 1; y < draggableChart0.data.datasets[datasetIndex].data.length; y++) {
+                                draggableChart0.data.datasets[datasetIndex].data[y].y = value.y;
+                            }
+                            draggableChart0.update();
+
+
                         },
                     }
                 },
                 scales: {
+                    //scaleOverride: true,
+                    x: {
+                        type: 'time',
+                        autoSkip: false,
+                        time: {
+                            unit: 'minute',
+                            // round: 'day'                                                                                                                                                                            
+                            tooltipFormat: 'd/M-yyyy HH:mm',
+                            displayFormats: {
+                                millisecond: 'HH:mm:ss.SSS',
+                                second: 'HH:mm:ss',
+                                minute: 'HH:mm',
+                                hour: 'd/M-HH:mm'
+                            },
+                            unitStepSize: 10
+                        },
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        },
+                    },
                     y: {
                         // dragData: false // disables datapoint dragging for the entire axis
+
+                        //suggestedMin: 15,
+                        //suggestedMax: 30,
+
+                        min: window.Data.thsetup.min,
+                        max: window.Data.thsetup.max,
+                        stepSize: window.Data.thsetup.stepSize
+
                     }
                 }
             }
-        })
+        }
+
+        const chConfig1 = {
+            type: 'scatter',
+            data: [],
+            options: {
+                datasets: {
+                    scatter: {
+                        borderWidth: 2.5,
+                        fill: false,
+                        pointRadius: 3,
+                        pointHitRadius: 4,
+                        showLine: true
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 20,
+                        right: 20,
+                        top: 20,
+                        bottom: 10
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Future rum temperature setting',
+                        font: {
+                            size: 20,
+                            titleColor: 'black'
+                        },
+
+                    },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: 'white',
+                        borderColor: 'hsl(209, 100%, 50%)',
+                        borderWidth: 1,
+                        titleColor: 'black',
+                        displayColors: false,
+                        callbacks: {
+                            label: function (context) {
+                                let label = context.dataset.label || '';
+
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += new Intl.NumberFormat('en-US').format(context.parsed.y);
+                                }
+                                return label;
+                            }, labelColor: function (context) {
+                                return {
+                                    borderColor: 'rgb(0, 0, 255)',
+                                    backgroundColor: 'rgb(255, 0, 0)',
+                                    borderWidth: 2,
+                                    borderDash: [2, 2],
+                                    borderRadius: 2,
+                                };
+                            },
+                            labelTextColor: function (context) {
+                                return context.dataset.borderColor;
+                            }
+                        }
+
+                    },
 
 
 
-        draggableChart.data.datasets.push(
-            {
-                label: "A dataset",
-                data: xyValues,
-                backgroundColor: pColor(1),
-                borderColor: pColor(1)
-            });
 
-        draggableChart.data.datasets.push(
-            {
-                label: "A dathgfjhaset",
-                data: xyValues2,
-                backgroundColor: pColor(2),
-                borderColor: pColor(2)
+
+                    dragData: {
+                        round: 1, // rounds the values to n decimal places 
+                        // in this case 1, e.g 0.1234 => 0.1)
+                        showTooltip: true, // show the tooltip while dragging [default = true]
+                        // dragX: true // also enable dragging along the x-axis.
+                        // this solely works for continous, numerical x-axis scales (no categories or dates)!
+                        onDragStart: function (e, element) {
+                            /*
+                            // e = event, element = datapoint that was dragged
+                            // you may use this callback to prohibit dragging certain datapoints
+                            // by returning false in this callback
+                            if (element.datasetIndex === 0 && element.index === 0) {
+                              // this would prohibit dragging the first datapoint in the first
+                              // dataset entirely
+                              return false
+                            }
+                            */
+                        },
+                        onDrag: function (e, datasetIndex, index, value) {
+                            /*     
+                            // you may control the range in which datapoints are allowed to be
+                            // dragged by returning `false` in this callback
+                            if (value < 0) return false // this only allows positive values
+                            if (datasetIndex === 0 && index === 0 && value > 20) return false 
+                            */
+                            //console.log("value x: " + value.x + "value.y: " + value.y);
+                        },
+                        onDragEnd: function (e, datasetIndex, index, value) {
+                            // you may use this callback to store the final datapoint value
+                            // (after dragging) in a database, or update other UI elements that
+                            // dependent on it
+                            console.log("datasetIndex: " + datasetIndex);
+                            console.log("index: " + index);
+                            console.log("value end x: " + value.x + "value end y: " + value.y);
+
+                            for (let y = index + 1; y < draggableChart1.data.datasets[datasetIndex].data.length; y++) {
+                                draggableChart1.data.datasets[datasetIndex].data[y].y = value.y;
+                            }
+                            draggableChart1.update();
+
+
+                        },
+                    }
+                },
+                scales: {
+                    //scaleOverride: true,
+                    x: {
+                        type: 'time',
+                        autoSkip: false,
+                        time: {
+                            unit: 'minute',
+                            // round: 'day'                                                                                                                                                                            
+                            tooltipFormat: 'd/M-yyyy HH:mm',
+                            displayFormats: {
+                                millisecond: 'HH:mm:ss.SSS',
+                                second: 'HH:mm:ss',
+                                minute: 'HH:mm',
+                                hour: 'd/M-HH:mm'
+                            },
+                            unitStepSize: 10
+                        },
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        },
+                    },
+                    y: {
+                        // dragData: false // disables datapoint dragging for the entire axis
+
+                        //suggestedMin: 15,
+                        //suggestedMax: 30,
+
+                        min: window.Data.tsetup.min,
+                        max: window.Data.tsetup.max,
+                        stepSize: window.Data.tsetup.stepSize
+
+                    }
+                }
+            }
+        }
+
+
+
+
+        const chConfig2 = {
+            type: 'scatter',
+            data: [],
+            options: {
+                datasets: {
+                    scatter: {
+                        borderWidth: 2.5,
+                        fill: false,
+                        pointRadius: 3,
+                        pointHitRadius: 4,
+                        showLine: true
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 20,
+                        right: 20,
+                        top: 20,
+                        bottom: 10
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Future rum humidity setting',
+                        font: {
+                            size: 20,
+                            titleColor: 'black'
+                        },
+
+                    },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: 'white',
+                        borderColor: 'hsl(209, 100%, 50%)',
+                        borderWidth: 1,
+                        titleColor: 'black',
+                        displayColors: false,
+                        callbacks: {
+                            label: function (context) {
+                                let label = context.dataset.label || '';
+
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += new Intl.NumberFormat('en-US').format(context.parsed.y);
+                                }
+                                return label;
+                            }, labelColor: function (context) {
+                                return {
+                                    borderColor: 'rgb(0, 0, 255)',
+                                    backgroundColor: 'rgb(255, 0, 0)',
+                                    borderWidth: 2,
+                                    borderDash: [2, 2],
+                                    borderRadius: 2,
+                                };
+                            },
+                            labelTextColor: function (context) {
+                                return context.dataset.borderColor;
+                            }
+                        }
+
+                    },
+
+                    dragData: {
+                        round: 1, // rounds the values to n decimal places 
+                        // in this case 1, e.g 0.1234 => 0.1)
+                        showTooltip: true, // show the tooltip while dragging [default = true]
+                        // dragX: true // also enable dragging along the x-axis.
+                        // this solely works for continous, numerical x-axis scales (no categories or dates)!
+                        onDragStart: function (e, element) {
+                            /*
+                            // e = event, element = datapoint that was dragged
+                            // you may use this callback to prohibit dragging certain datapoints
+                            // by returning false in this callback
+                            if (element.datasetIndex === 0 && element.index === 0) {
+                              // this would prohibit dragging the first datapoint in the first
+                              // dataset entirely
+                              return false
+                            }
+                            */
+                        },
+                        onDrag: function (e, datasetIndex, index, value) {
+                            /*     
+                            // you may control the range in which datapoints are allowed to be
+                            // dragged by returning `false` in this callback
+                            if (value < 0) return false // this only allows positive values
+                            if (datasetIndex === 0 && index === 0 && value > 20) return false 
+                            */
+                            //console.log("value x: " + value.x + "value.y: " + value.y);
+
+                        },
+                        onDragEnd: function (e, datasetIndex, index, value) {
+                            // you may use this callback to store the final datapoint value
+                            // (after dragging) in a database, or update other UI elements that
+                            // dependent on it
+                            console.log("datasetIndex: " + datasetIndex);
+                            console.log("index: " + index);
+                            console.log("value end x: " + value.x + "value end y: " + value.y);
+                            for (let y = index + 1; y < draggableChart2.data.datasets[datasetIndex].data.length; y++) {
+                                draggableChart2.data.datasets[datasetIndex].data[y].y = value.y;
+                            }
+                            draggableChart2.update();
+                        },
+                    }
+                },
+                scales: {
+                    //scaleOverride: true,
+                    x: {
+                        // ticks: {
+                        //     stepSize: 6,
+                        //     unitStepSize: 5
+                        // },
+                        type: 'time',
+                        time: {
+                            unit: 'minute',
+                            // round: 'day'                                                                                                                                                                            
+                            tooltipFormat: 'd/M-yyyy HH:mm',
+                            displayFormats: {
+                                millisecond: 'HH:mm:ss.SSS',
+                                second: 'HH:mm:ss',
+                                minute: 'HH:mm',
+                                hour: 'd/M-HH:mm'
+                            }
+                        },
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        }
+                    },
+                    y: {
+                        // dragData: false // disables datapoint dragging for the entire axis
+
+                        //suggestedMin: 15,
+                        //suggestedMax: 30,
+
+                        min: window.Data.hsetup.min,
+                        max: window.Data.hsetup.max,
+                        stepSize: window.Data.hsetup.stepSize
+
+                    }
+                }
+            }
+        }
+
+        const chConfig3 = {
+            type: 'scatter',
+            data: [],
+            options: {
+                datasets: {
+                    scatter: {
+                        borderWidth: 2.5,
+                        fill: false,
+                        pointRadius: 3,
+                        pointHitRadius: 4,
+                        showLine: true
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 20,
+                        right: 20,
+                        top: 20,
+                        bottom: 10
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Future rum CO2 setting',
+                        font: {
+                            size: 20,
+                            titleColor: 'black'
+                        },
+
+                    },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: 'white',
+                        borderColor: 'hsl(209, 100%, 50%)',
+                        borderWidth: 1,
+                        titleColor: 'black',
+                        displayColors: false,
+                        callbacks: {
+                            label: function (context) {
+                                let label = context.dataset.label || '';
+
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += new Intl.NumberFormat('en-US').format(context.parsed.y);
+                                }
+                                return label;
+                            }, labelColor: function (context) {
+                                return {
+                                    borderColor: 'rgb(0, 0, 255)',
+                                    backgroundColor: 'rgb(255, 0, 0)',
+                                    borderWidth: 2,
+                                    borderDash: [2, 2],
+                                    borderRadius: 2,
+                                };
+                            },
+                            labelTextColor: function (context) {
+                                return context.dataset.borderColor;
+                            }
+                        }
+
+                    },
+
+                    dragData: {
+                        round: 1, // rounds the values to n decimal places 
+                        // in this case 1, e.g 0.1234 => 0.1)
+                        showTooltip: true, // show the tooltip while dragging [default = true]
+                        // dragX: true // also enable dragging along the x-axis.
+                        // this solely works for continous, numerical x-axis scales (no categories or dates)!
+                        onDragStart: function (e, element) {
+                            /*
+                            // e = event, element = datapoint that was dragged
+                            // you may use this callback to prohibit dragging certain datapoints
+                            // by returning false in this callback
+                            if (element.datasetIndex === 0 && element.index === 0) {
+                              // this would prohibit dragging the first datapoint in the first
+                              // dataset entirely
+                              return false
+                            }
+                            */
+                        },
+                        onDrag: function (e, datasetIndex, index, value) {
+                            /*     
+                            // you may control the range in which datapoints are allowed to be
+                            // dragged by returning `false` in this callback
+                            if (value < 0) return false // this only allows positive values
+                            if (datasetIndex === 0 && index === 0 && value > 20) return false 
+                            */
+                            //console.log("value x: " + value.x + "value.y: " + value.y);
+                        },
+                        onDragEnd: function (e, datasetIndex, index, value) {
+                            // you may use this callback to store the final datapoint value
+                            // (after dragging) in a database, or update other UI elements that
+                            // dependent on it
+                            console.log("datasetIndex: " + datasetIndex);
+                            console.log("index: " + index);
+                            console.log("value end x: " + value.x + "value end y: " + value.y);
+                            for (let y = index + 1; y < draggableChart3.data.datasets[datasetIndex].data.length; y++) {
+                                draggableChart3.data.datasets[datasetIndex].data[y].y = value.y;
+                            }
+                            draggableChart3.update();
+                        },
+                    }
+                },
+                scales: {
+                    //scaleOverride: true,
+                    x: {
+                        // ticks: {
+                        //     stepSize: 6,
+                        //     unitStepSize: 5
+                        // },
+                        type: 'time',
+                        time: {
+                            unit: 'minute',
+                            // round: 'day'                                                                                                                                                                            
+                            tooltipFormat: 'd/M-yyyy HH:mm',
+                            displayFormats: {
+                                millisecond: 'HH:mm:ss.SSS',
+                                second: 'HH:mm:ss',
+                                minute: 'HH:mm',
+                                hour: 'd/M-HH:mm'
+                            }
+                        },
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        }
+                    },
+                    y: {
+                        // dragData: false // disables datapoint dragging for the entire axis
+
+                        //suggestedMin: 15,
+                        //suggestedMax: 30,
+
+                        min: window.Data.csetup.min,
+                        max: window.Data.csetup.max,
+                        stepSize: window.Data.csetup.stepSize
+
+                    }
+                }
+            }
+        }
+
+
+        const chConfig4 = {
+            type: 'scatter',
+            data: [],
+            options: {
+                datasets: {
+                    scatter: {
+                        borderWidth: 2.5,
+                        fill: false,
+                        pointRadius: 3,
+                        pointHitRadius: 4,
+                        showLine: true
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 20,
+                        right: 20,
+                        top: 20,
+                        bottom: 10
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Future District heating setting',
+                        font: {
+                            size: 20,
+                            titleColor: 'black'
+                        },
+
+                    },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: 'white',
+                        borderColor: 'hsl(209, 100%, 50%)',
+                        borderWidth: 1,
+                        titleColor: 'black',
+                        displayColors: false,
+                        callbacks: {
+                            label: function (context) {
+                                let label = context.dataset.label || '';
+
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += new Intl.NumberFormat('en-US').format(context.parsed.y);
+                                }
+                                return label;
+                            }, labelColor: function (context) {
+                                return {
+                                    borderColor: 'rgb(0, 0, 255)',
+                                    backgroundColor: 'rgb(255, 0, 0)',
+                                    borderWidth: 2,
+                                    borderDash: [2, 2],
+                                    borderRadius: 2,
+                                };
+                            },
+                            labelTextColor: function (context) {
+                                return context.dataset.borderColor;
+                            }
+                        }
+
+                    },
+
+                    dragData: {
+                        round: 1, // rounds the values to n decimal places 
+                        // in this case 1, e.g 0.1234 => 0.1)
+                        showTooltip: true, // show the tooltip while dragging [default = true]
+                        // dragX: true // also enable dragging along the x-axis.
+                        // this solely works for continous, numerical x-axis scales (no categories or dates)!
+                        onDragStart: function (e, element) {
+                            /*
+                            // e = event, element = datapoint that was dragged
+                            // you may use this callback to prohibit dragging certain datapoints
+                            // by returning false in this callback
+                            if (element.datasetIndex === 0 && element.index === 0) {
+                              // this would prohibit dragging the first datapoint in the first
+                              // dataset entirely
+                              return false
+                            }
+                            */
+                        },
+                        onDrag: function (e, datasetIndex, index, value) {
+                            /*     
+                            // you may control the range in which datapoints are allowed to be
+                            // dragged by returning `false` in this callback
+                            if (value < 0) return false // this only allows positive values
+                            if (datasetIndex === 0 && index === 0 && value > 20) return false 
+                            */
+                            //console.log("value x: " + value.x + "value.y: " + value.y);
+                        },
+                        onDragEnd: function (e, datasetIndex, index, value) {
+                            // you may use this callback to store the final datapoint value
+                            // (after dragging) in a database, or update other UI elements that
+                            // dependent on it
+                            console.log("datasetIndex: " + datasetIndex);
+                            console.log("index: " + index);
+                            console.log("value end x: " + value.x + "value end y: " + value.y);
+                            for (let y = index + 1; y < draggableChart4.data.datasets[datasetIndex].data.length; y++) {
+                                draggableChart4.data.datasets[datasetIndex].data[y].y = value.y;
+                            }
+                            draggableChart4.update();
+                        },
+                    }
+                },
+                scales: {
+                    //scaleOverride: true,
+                    x: {
+                        // ticks: {
+                        //     stepSize: 6,
+                        //     unitStepSize: 5
+                        // },
+                        type: 'time',
+                        time: {
+                            unit: 'minute',
+                            // round: 'day'                                                                                                                                                                            
+                            tooltipFormat: 'd/M-yyyy HH:mm',
+                            displayFormats: {
+                                millisecond: 'HH:mm:ss.SSS',
+                                second: 'HH:mm:ss',
+                                minute: 'HH:mm',
+                                hour: 'd/M-HH:mm'
+                            }
+                        },
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        }
+                    },
+                    y: {
+
+                        min: window.Data.dhsetup.min,
+                        max: window.Data.dhsetup.max,
+                        stepSize: window.Data.osetup.stepSize
+
+                    }
+                }
+            }
+        }
+
+        const chConfig5 = {
+            type: 'scatter',
+            data: [],
+            options: {
+                datasets: {
+                    scatter: {
+                        borderWidth: 2.5,
+                        fill: false,
+                        pointRadius: 3,
+                        pointHitRadius: 4,
+                        showLine: true
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 20,
+                        right: 20,
+                        top: 20,
+                        bottom: 10
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Future outside setting',
+                        font: {
+                            size: 20,
+                            titleColor: 'black'
+                        },
+
+                    },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: 'white',
+                        borderColor: 'hsl(209, 100%, 50%)',
+                        borderWidth: 1,
+                        titleColor: 'black',
+                        displayColors: false,
+                        callbacks: {
+                            label: function (context) {
+                                let label = context.dataset.label || '';
+
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += new Intl.NumberFormat('en-US').format(context.parsed.y);
+                                }
+                                return label;
+                            }, labelColor: function (context) {
+                                return {
+                                    borderColor: 'rgb(0, 0, 255)',
+                                    backgroundColor: 'rgb(255, 0, 0)',
+                                    borderWidth: 2,
+                                    borderDash: [2, 2],
+                                    borderRadius: 2,
+                                };
+                            },
+                            labelTextColor: function (context) {
+                                return context.dataset.borderColor;
+                            }
+                        }
+
+                    },
+
+                    dragData: {
+                        round: 1, // rounds the values to n decimal places 
+                        // in this case 1, e.g 0.1234 => 0.1)
+                        showTooltip: true, // show the tooltip while dragging [default = true]
+                        // dragX: true // also enable dragging along the x-axis.
+                        // this solely works for continous, numerical x-axis scales (no categories or dates)!
+                        onDragStart: function (e, element) {
+                            /*
+                            // e = event, element = datapoint that was dragged
+                            // you may use this callback to prohibit dragging certain datapoints
+                            // by returning false in this callback
+                            if (element.datasetIndex === 0 && element.index === 0) {
+                              // this would prohibit dragging the first datapoint in the first
+                              // dataset entirely
+                              return false
+                            }
+                            */
+                        },
+                        onDrag: function (e, datasetIndex, index, value) {
+                            /*     
+                            // you may control the range in which datapoints are allowed to be
+                            // dragged by returning `false` in this callback
+                            if (value < 0) return false // this only allows positive values
+                            if (datasetIndex === 0 && index === 0 && value > 20) return false 
+                            */
+                            //console.log("value x: " + value.x + "value.y: " + value.y);
+                        },
+                        onDragEnd: function (e, datasetIndex, index, value) {
+                            // you may use this callback to store the final datapoint value
+                            // (after dragging) in a database, or update other UI elements that
+                            // dependent on it
+                            console.log("datasetIndex: " + datasetIndex);
+                            console.log("index: " + index);
+                            console.log("value end x: " + value.x + "value end y: " + value.y);
+                            for (let y = index + 1; y < draggableChart5.data.datasets[datasetIndex].data.length; y++) {
+                                draggableChart5.data.datasets[datasetIndex].data[y].y = value.y;
+                            }
+                            draggableChart5.update();
+                        },
+                    }
+                },
+                scales: {
+                    //scaleOverride: true,
+                    x: {
+                        // ticks: {
+                        //     stepSize: 6,
+                        //     unitStepSize: 5
+                        // },
+                        type: 'time',
+                        time: {
+                            unit: 'minute',
+                            // round: 'day'                                                                                                                                                                            
+                            tooltipFormat: 'd/M-yyyy HH:mm',
+                            displayFormats: {
+                                millisecond: 'HH:mm:ss.SSS',
+                                second: 'HH:mm:ss',
+                                minute: 'HH:mm',
+                                hour: 'd/M-HH:mm'
+                            }
+                        },
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        }
+                    },
+                    y: {
+
+                        min: window.Data.osetup.min,
+                        max: window.Data.osetup.max,
+                        stepSize: window.Data.osetup.stepSize
+
+                    }
+                }
+            }
+        }
+
+        const draggableChart0 = new Chart(document.getElementById("myChart0"), chConfig0)
+        const draggableChart1 = new Chart(document.getElementById("myChart1"), chConfig1)
+        const draggableChart2 = new Chart(document.getElementById("myChart2"), chConfig2)
+        const draggableChart3 = new Chart(document.getElementById("myChart3"), chConfig3)
+        const draggableChart4 = new Chart(document.getElementById("myChart4"), chConfig4)
+        const draggableChart5 = new Chart(document.getElementById("myChart5"), chConfig5)
+
+        for (let x in window.Data.thlabel) {
+            //let tmpDatax = window.Data.tdata[x].x;
+            let tmpDatax = -7 * 1000 * 600;
+            let tmpDatay = window.Data.thdata[x].y;
+            let nyData = [];
+
+            for (let y = 0; y < window.Data.thsetup.timeStep; y++) {
+                tmpDatax = tmpDatax + 1000 * 600;
+
+                nyData.push({ x: tmpDatax, y: tmpDatay })
             }
 
-        );
+            let co = pColor(x);
+            draggableChart0.data.datasets.push(
+                {
+                    label: window.Data.thlabel[x],
+                    data: nyData,
+                    backgroundColor: co,
+                    borderColor: co,
+                });
+            //console.log(window.opener.Label[x]);
+            console.log(nyData);
+        }
 
-        draggableChart.update();
+        for (let x in window.Data.tlabel) {
+            //let tmpDatax = window.Data.tdata[x].x;
+            let tmpDatax = -7 * 1000 * 600;
+            let tmpDatay = window.Data.tdata[x].y;
+            let nyData = [];
+
+            for (let y = 0; y < window.Data.tsetup.timeStep; y++) {
+                tmpDatax = tmpDatax + 1000 * 600;
+
+                nyData.push({ x: tmpDatax, y: tmpDatay })
+            }
+
+            let co = pColor(x);
+            draggableChart1.data.datasets.push(
+                {
+                    label: window.Data.tlabel[x],
+                    data: nyData,
+                    backgroundColor: co,
+                    borderColor: co,
+                });
+            //console.log(window.opener.Label[x]);
+            console.log(nyData);
+        }
+
+        for (let x in window.Data.hlabel) {
+            //let tmpDatax = window.Data.tdata[x].x;
+            let tmpDatax = -6 * 1000 * 600;
+            let tmpDatay = window.Data.hdata[x].y;
+            let nyData = [];
+
+            for (let y = 0; y < window.Data.hsetup.timeStep; y++) {
+                tmpDatax = tmpDatax + 1000 * 600;
+
+                nyData.push({ x: tmpDatax, y: tmpDatay })
+
+
+            }
+
+            let co = pColor(x);
+            draggableChart2.data.datasets.push(
+                {
+                    label: window.Data.hlabel[x],
+                    data: nyData,
+                    backgroundColor: co,
+                    borderColor: co,
+                });
+            console.log(window.Data.hlabel[x]);
+            console.log(nyData);
+        }
+
+        var nyData3 = [];
+        for (let x in window.Data.clabel) {
+            //let tmpDatax = window.Data.tdata[x].x;
+            let tmpDatax = -7 * 1000 * 600;
+            let tmpDatay = window.Data.cdata[x].y;
+
+
+            for (let y = 0; y < window.Data.csetup.timeStep; y++) {
+                tmpDatax = tmpDatax + 1000 * 600;
+
+                nyData3.push({ x: tmpDatax, y: tmpDatay })
+
+
+            }
+
+            let co = pColor(x);
+            draggableChart3.data.datasets.push(
+                {
+                    label: window.Data.clabel[x],
+                    data: nyData3,
+                    backgroundColor: co,
+                    borderColor: co,
+                });
+            console.log(window.Data.clabel[x]);
+            console.log(nyData3);
+            nyData3 = [];
+        }
+
+        var nyData4 = [];
+        for (let x in window.Data.dhlabel) {
+            //let tmpDatax = window.Data.tdata[x].x;
+            let tmpDatax = -7 * 1000 * 600;
+            let tmpDatay = window.Data.dhdata[x].y;
+
+
+            for (let y = 0; y < window.Data.dhsetup.timeStep; y++) {
+                tmpDatax = tmpDatax + 1000 * 600;
+
+                if (x == 0) nyData4.push({ x: tmpDatax, y: tmpDatay * 1000.0 })
+                else nyData4.push({ x: tmpDatax, y: tmpDatay })
+
+
+            }
+
+            let co = pColor(x);
+            draggableChart4.data.datasets.push(
+                {
+                    label: window.Data.dhlabel[x],
+                    data: nyData4,
+                    backgroundColor: co,
+                    borderColor: co,
+                });
+            console.log(window.Data.dhlabel[x]);
+            console.log(nyData4);
+            nyData4 = [];
+        }
+
+        var nyData5 = [];
+        for (let x in window.Data.olabel) {
+            //let tmpDatax = window.Data.tdata[x].x;
+            let tmpDatax = -7 * 1000 * 600;
+            let tmpDatay = window.Data.odata[x].y;
+
+
+            for (let y = 0; y < window.Data.osetup.timeStep; y++) {
+                tmpDatax = tmpDatax + 1000 * 600;
+
+                if (x == 2) nyData5.push({ x: tmpDatax, y: tmpDatay * 10.0 })
+                else nyData5.push({ x: tmpDatax, y: tmpDatay })
+
+
+            }
+
+            let co = pColor(x);
+            draggableChart5.data.datasets.push(
+                {
+                    label: window.Data.olabel[x],
+                    data: nyData5,
+                    backgroundColor: co,
+                    borderColor: co,
+                });
+            console.log(window.Data.olabel[x]);
+            console.log(nyData5);
+            nyData5 = [];
+        }
+
+        //console.log("kjas: " + window.opener.Setup.min)
+        draggableChart0.update();
+        draggableChart1.update();
+        draggableChart2.update();
+        draggableChart3.update();
+        draggableChart4.update();
+        draggableChart5.update();
 
         document.getElementById("submit").addEventListener("click", mouseUp);
 
@@ -212,12 +1197,77 @@ function pColor(i) {
         var elmid = urlParams.get('elmID');
         var val = urlParams.get('value');
 
+
         function mouseUp() {
-            var url = "http://172.25.12.11:8088/" + apid + elmid + "/actions/setSPExternal?setpoint=" + val;
-            request.open('POST', url);
-            request.send();
+            console.log("data: " + draggableChart3.data.datasets[0].data[0].y);
+
+            window["returData0"] = draggableChart0.data.datasets;
+            window["returData1"] = draggableChart1.data.datasets;
+            window["returData2"] = draggableChart2.data.datasets;
+            window["returData3"] = draggableChart3.data.datasets;
+            window["returData4"] = draggableChart4.data.datasets;
+            window["returData5"] = draggableChart5.data.datasets;
+
+            // var url = "http://172.25.12.11:8088/" + apid + elmid + "/actions/setSPExternal?setpoint=" + val;
+            // request.open('POST', url);
+            // request.send();
+
+            var mqtt;
+            var reconnectTimeout = 2000;
+            var host = "172.25.12.11";
+            var port = 9001;
+            var ch0json= JSON.stringify(draggableChart0.data.datasets)
+            var ch1json= JSON.stringify(draggableChart1.data.datasets)
+            var ch2json= JSON.stringify(draggableChart2.data.datasets)
+            var ch3json= JSON.stringify(draggableChart3.data.datasets)
+            var ch4json= JSON.stringify(draggableChart4.data.datasets)
+            var ch5json= JSON.stringify(draggableChart5.data.datasets)
+            //console.log(ch0json);
+
+
+            function onConnexct() {
+                console.log("Connected");
+                message = new Paho.MQTT.Message(ch0json);
+                message.destinationName = "domOS/webClient/0";
+                mqtt.send(message);
+                message = new Paho.MQTT.Message(ch1json);
+                message.destinationName = "domOS/webClient/1";
+                mqtt.send(message);
+                message = new Paho.MQTT.Message(ch2json);
+                message.destinationName = "domOS/webClient/2";
+                mqtt.send(message);
+                message = new Paho.MQTT.Message(ch3json);
+                message.destinationName = "domOS/webClient/3";
+                mqtt.send(message);
+                message = new Paho.MQTT.Message(ch4json);
+                message.destinationName = "domOS/webClient/4";
+                mqtt.send(message); 
+                message = new Paho.MQTT.Message(ch5json);
+                message.destinationName = "domOS/webClient/5";
+                mqtt.send(message);
+            }
+
+
+            console.log("connect to " + host + " " + port);
+            mqtt = new Paho.MQTT.Client(host, port, "clientssjs");
+            var options = {
+                timeout: 3,
+                onSuccess: onConnexct,
+            };
+            mqtt.connect(options);
+            console.log("connect to " + host + " " + port);
+
+
+            console.log("OK#")
+
         }
-        console.log("OK#")
+
+
+
+
+
+
+
 
     </script>
 </body>
