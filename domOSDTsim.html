@@ -293,7 +293,7 @@
 
                         nyElm = elementid.replace(" thermMV", "therm");
                     }
-                    myWindow = window.open("http://" + IPadd + ":8080/DigiTwin/TempSPSlider.html?aid=" + apid.toLowerCase() + "&elmID=" + nyElm.toLowerCase() + "&value=" + value, "", "width=460,height=280,left=500,top=200");
+                    myWindow = window.open("http://" + IPadd + ":8080/TempSPSlider.html?aid=" + apid.toLowerCase() + "&elmID=" + nyElm.toLowerCase() + "&value=" + value, "", "width=460,height=280,left=500,top=200");
                     //myWindow.document.getElementById('headTxt').innerHTML= "<p>" + apid + " value: " + elementid + "= " + value+"</p>";
                     //myWindow.document.write("<p>This is Dwindow for: " + apid + " value: " + elementid + "= " + value+"</p>");
                 }
@@ -519,7 +519,7 @@
         switch (nr) {
             case 0:
 
-                simWindow1 = window.open("http://" + IPadd + ":8080/DigiTwin/simCtrl.html", "Simulation Setup1", "width=960,height=1200,left=400,top=100");
+                simWindow1 = window.open("http://172.25.12.11:8080/simCtrl.html", "Simulation Setup1", "width=960,height=1200,left=400,top=100");
                 //console.log("nrwww: " + nr);
                 console.log("nrwww1: " + ER1data.hlabel);
 
@@ -566,7 +566,7 @@
             case 1:
                 //if (simWindow2) simWindow2.close();
 
-                simWindow2 = window.open("http://" + IPadd + ":8080/DigiTwin/simCtrl.html", "Simulation Setup2", "width=760,height=580,left=400,top=100");
+                simWindow2 = window.open("http://" + IPadd + ":8080/simCtrl.html", "Simulation Setup2", "width=760,height=580,left=400,top=100");
                 simWindow2["data"] = [[
 
                     { x: 55, y: 4 },
@@ -599,7 +599,7 @@
 
             case 2:
 
-                simWindow3 = window.open("http://" + IPadd + ":8080/DigiTwin/simCtrl.html", "Simulation Setup3", "width=760,height=580,left=400,top=100");
+                simWindow3 = window.open("http://" + IPadd + ":8080/simCtrl.html", "Simulation Setup3", "width=760,height=580,left=400,top=100");
                 simWindow3["data"] = [[
 
                     { x: 55, y: 4 },

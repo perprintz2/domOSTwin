@@ -6,11 +6,11 @@ cd ./WSservers
 node ./WSDBserver.js &
 node ./WSserver.js &
 cd ..
-node ./Webserver/d1.js &
+node ./d1.js &
 Rscript ./Rsrc/simStart.R &
 cd ../WoTDomOS
 node ./wotMain.js &
 cd ../DigiTwin/Matlab
-google-chrome http://172.25.12.11:8080/DigiTwin/domOSDTsim.html &
-google-chrome http://172.25.12.11:8080/DigiTwin/index.html &
+google-chrome http://172.25.12.11:8080/domOSDTsim.html &
+google-chrome http://172.25.12.11:8080/index.html &
 /home/ppm/matlab -nodisplay -nosplash -nodesktop -r "run('/home/ppm/Documents/demos/domOS/DigiTwin/Matlab/mqttDataReciver.m');" 

@@ -317,7 +317,7 @@ function EnergyRoad1Room1Tempsim() {
         let outTemp = getDepValueSt('EnergyRoad1', "OutTemp");
         let outRad = getDepValueSt('EnergyRoad1', "DirectSunPowerVertical");
 
-        var url = `http://${IPadd}:8085/EnergyRoad1Sim?t1=${t1}&t2=${t2}&t4=${t4}&tKitchen=${tKitchen}&tCorridor=${tCorridor}&tInlet=${tInlet}&tOutlet=${tOutlet}&fInlet=${fInlet}&outTemp=${outTemp}&outRad=${outRad}`;
+        var url = `http://172.25.12.11:8085/EnergyRoad1Sim?t1=${t1}&t2=${t2}&t4=${t4}&tKitchen=${tKitchen}&tCorridor=${tCorridor}&tInlet=${tInlet}&tOutlet=${tOutlet}&fInlet=${fInlet}&outTemp=${outTemp}&outRad=${outRad}`;
 
         var request = new XMLHttpRequest();
         request.open('GET', url);

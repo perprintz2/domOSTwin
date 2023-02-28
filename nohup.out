@@ -1,2 +1,11 @@
 python: can't open file 'domOSSaver.py': [Errno 2] No such file or directory
 python: can't open file 'domOSSaver.py': [Errno 2] No such file or directory
+1677499568: mosquitto version 2.0.15 starting
+1677499568: Using default config.
+1677499568: Starting in local only mode. Connections will only be possible from clients running on this machine.
+1677499568: Create a configuration file which defines a listener to allow remote access.
+1677499568: For more details see https://mosquitto.org/documentation/authentication-methods/
+1677499568: Opening ipv4 listen socket on port 1883.
+1677499568: Error: Address already in use
+1677499568: Opening ipv6 listen socket on port 1883.
+1677499568: Error: Address already in use

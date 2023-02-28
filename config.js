@@ -1,4 +1,4 @@
-const IPadd = "172.25.12.11";
+const IPadd = "localhost";
 
 const ER1SimInputTherm = ["Room1 thermSP1",
     "Room1 thermSP2",

@@ -5,7 +5,7 @@ var fs = require('fs');
 var no = 0;
 server= http.createServer(function (req, res) {
   var q = url.parse(req.url, true);
-  var filename = "/home/ppm/Documents/demos/domOS/" + q.pathname;
+  var filename = __dirname + q.pathname;
   console.log("filename: "+ filename);
 
   fs.readFile(filename, function (err, data) {
